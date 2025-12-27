@@ -374,21 +374,22 @@ mvn spring-boot:run
 
 ## 🧪 **Testing**
 
-### **Postman Collection**
+### **Colección de Postman**
 
-El proyecto incluye una colección completa de Postman con:
+El proyecto incluye una colección de Postman con:
 
-- ✅ Todos los endpoints documentados con ejemplos
-- ✅ Tests automatizados para validar respuestas
-- ✅ Variables de entorno configuradas
-- ✅ Casos de prueba para escenarios de éxito y error
+- ✅ Todos los endpoints organizados por módulos (Customers, Products, Sales)
+- ✅ Ejemplos de requests con datos de prueba
+- ✅ Requests para todos los métodos HTTP (GET, POST, PUT, DELETE)
 
-**Instrucciones para importar:**
+**Para importar la colección:**
 
 1. Abrir Postman
 2. Click en "Import"
-3. Seleccionar el archivo `Bazar-Management-API.postman_collection.json`
-4. Configurar las variables de entorno si es necesario
+3. Navegar a la carpeta `postman/` del proyecto
+4. Seleccionar el archivo `Bazar-Management-API.postman_collection.json`
+
+> 📝 **Nota**: La colección contiene todas las requests necesarias para probar la funcionalidad completa de la API.
 
 ## 🔧 **Estructura del Proyecto**
 
