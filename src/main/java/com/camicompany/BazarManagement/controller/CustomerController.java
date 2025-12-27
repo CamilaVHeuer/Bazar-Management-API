@@ -1,44 +1,49 @@
 package com.camicompany.BazarManagement.controller;
 
-import com.camicompany.BazarManagement.model.Customer;
-import com.camicompany.BazarManagement.model.Product;
+import com.camicompany.BazarManagement.dto.CustomerDTO;
 import com.camicompany.BazarManagement.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping ("/api/customers")
 public class CustomerController {
 
     @Autowired
     private ICustomerService custoServ;
 
-    @PostMapping("/customers/create")
-    public Customer createCustomer(@RequestBody Customer custo) {
-
-        return custoServ.createCustomer(custo);
+    @PostMapping
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO custoDTO) {
+        CustomerDTO createdCusto= custoServ.createCustomer(custoDTO);
+        return ResponseEntity.created(URI.create("/api/customer" + createdCusto.getCustomerId())).body(createdCusto);
     }
 
-    @GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
-        return custoServ.getAllCustomers();
+    @GetMapping
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+
+        return ResponseEntity.ok(custoServ.getAllCustomers());
     }
 
-    @GetMapping ("/customers/{id}")
-    public Customer getCustomerById(@PathVariable Long id){
+    @GetMapping ("/{id}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id){
 
-        return custoServ.getCustomerById(id);
+        return ResponseEntity.ok(custoServ.getCustomerById(id));
     }
 
-    @PutMapping ("/customers/update/{id}")
-    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer custoDetails) {
-        return custoServ.updateCustomer(id, custoDetails);
+    @PutMapping ("/{id}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO custoDetailsDTO) {
+        return ResponseEntity.ok(custoServ.updateCustomer(id, custoDetailsDTO));
     }
 
-    @DeleteMapping ("/customers/delete/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+
         custoServ.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

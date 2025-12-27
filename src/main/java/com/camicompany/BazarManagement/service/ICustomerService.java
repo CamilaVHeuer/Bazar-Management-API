@@ -1,5 +1,6 @@
 package com.camicompany.BazarManagement.service;
 
+import com.camicompany.BazarManagement.dto.CustomerDTO;
 import com.camicompany.BazarManagement.model.Customer;
 
 import java.util.List;
@@ -7,16 +8,16 @@ import java.util.List;
 public interface ICustomerService {
 
     //READ ALL
-    public List<Customer> getAllCustomers();
+    public List<CustomerDTO> getAllCustomers();
 
     //CREATE
-    public Customer createCustomer(Customer customer);
+    public CustomerDTO createCustomer(CustomerDTO customerDTO);
 
     //READ BY ID
-    public Customer getCustomerById(Long id);
+    public CustomerDTO getCustomerById(Long id);
 
     //UPDATE
-    public Customer updateCustomer(Long id, Customer customerDetails);
+    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDetailsDTO);
 
     //DELETE
     public void deleteCustomer(Long id);

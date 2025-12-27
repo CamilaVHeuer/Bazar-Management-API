@@ -1,7 +1,10 @@
 package com.camicompany.BazarManagement.service;
 
+import com.camicompany.BazarManagement.dto.ProductDTO;
+import com.camicompany.BazarManagement.dto.SaleDTO;
 import com.camicompany.BazarManagement.dto.SalesDetailDTO;
 import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
+import com.camicompany.BazarManagement.mapper.Mapper;
 import com.camicompany.BazarManagement.model.Customer;
 import com.camicompany.BazarManagement.model.Product;
 import com.camicompany.BazarManagement.model.Sale;
@@ -16,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -30,27 +34,36 @@ public class SaleService implements ISaleService {
     private IProductRepository prodRepo;
 
     @Override
-    public List<Sale> getAllSales() {
-        return saleRepo.findAll();
+    public List<SaleDTO> getAllSales() {
+        return saleRepo.findAll().stream().map(Mapper::toSaleDTO).toList();
     }
 
     @Override
-    public Sale createSale(Sale sale) {
+    public SaleDTO createSale(SaleDTO saleDTO) {
+        if(saleDTO ==null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale data is null");
+        }
+        if(saleDTO.getItems() == null || saleDTO.getItems().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale must have at least one item");
+        }
+        if(saleDTO.getCustomerId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer ID is required");
+        }
         //Find the real customer in the database
-        Customer custo = custoRepo.findById(sale.getCustomer().getCustomerId())
+        Customer custo = custoRepo.findById(saleDTO.getCustomerId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
         //Create a new "cleaned" sale
         Sale newSale = new Sale();
-        newSale.setDateSale(sale.getDateSale());
+        newSale.setDateSale(saleDTO.getDateSale());
         newSale.setCustomer(custo);
 
         double total = 0.0;
         List<SalesDetail> cleanItems = new ArrayList<>();
         //Process each item
-        for (SalesDetail item : sale.getItems()) {
+        for (SalesDetailDTO item : saleDTO.getItems()) {
             //Find the real product in the database
-            Product prod = prodRepo.findById(item.getProduct().getProductId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + item.getProduct().getProductId()));
+            Product prod = prodRepo.findById(item.getProductId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + item.getProductId()));
             // Validate stock
             if (prod.getStock() < item.getQuantity()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock for product: " + prod.getName());
@@ -58,6 +71,7 @@ public class SaleService implements ISaleService {
             //Create a new "cleaned" items
             SalesDetail cleanItem = new SalesDetail();
             cleanItem.setProduct(prod);
+            cleanItem.setProductName(prod.getName());
             cleanItem.setQuantity(item.getQuantity());
             cleanItem.setUnitPrice(prod.getUnitPrice());
 
@@ -74,43 +88,45 @@ public class SaleService implements ISaleService {
             prodRepo.save(prod);
          }
 
-        // Link item to sale
+        // Link items list to sale
         newSale.setItems(cleanItems);
         newSale.setTotal(total);
 
-        return saleRepo.save(newSale); // Save the sale to generate the saleId
+        return Mapper.toSaleDTO(saleRepo.save(newSale));
     }
 
     @Override
-    public Sale getSaleById(Long id) {
-        return saleRepo.findById(id).orElse(null);
+    public SaleDTO getSaleById(Long id) {
+        return Mapper.toSaleDTO(saleRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found")));
     }
 
     @Override
-    public Sale updateSale(Long id, Sale newSaleData) {
+    public SaleDTO updateSale(Long id, SaleDTO newSaleDataDTO) {
         Sale existingSale = saleRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found"));
         //update only fields that can be updated
-        if(newSaleData.getCustomer()!=null){
-            Customer custo = custoRepo.findById(newSaleData.getCustomer().getCustomerId())
+        if(newSaleDataDTO.getCustomerId()!=null){
+            Customer custo = custoRepo.findById(newSaleDataDTO.getCustomerId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
             existingSale.setCustomer(custo);
         }
 
-        if(newSaleData.getDateSale()!=null){
-            existingSale.setDateSale(newSaleData.getDateSale());
+        if(newSaleDataDTO.getDateSale()!=null){
+            existingSale.setDateSale(newSaleDataDTO.getDateSale());
         }
-        return saleRepo.save(existingSale);
+        return Mapper.toSaleDTO(saleRepo.save(existingSale));
     }
 
     @Override
     public void deleteSale(Long id) {
-        Sale sale = saleRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found"));
-        saleRepo.delete(sale);
+        if(!saleRepo.existsById(id))  {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found");
+        };
+        saleRepo.deleteById(id);
 
     }
 
     @Override
-    public List<Product> getProductsBySaleId(Long saleId) {
+    public List<ProductDTO> getProductsBySaleId(Long saleId) {
         //Find the sale
         Sale sale = saleRepo.findById(saleId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found"));
         List<Product> products = new ArrayList<>();
@@ -118,7 +134,7 @@ public class SaleService implements ISaleService {
         for(SalesDetail item : sale.getItems()){
             products.add(item.getProduct());
         }
-        return products;
+        return products.stream().map(Mapper::toProductDTO).toList();
     }
 
     @Override
@@ -135,36 +151,11 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public SalesDetailDTO getSaleWithGreatestTotalAmount() {
-        //Fetch all sales
-        List<Sale> sales = saleRepo.findAll();
-
-        if(sales.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No sales found");
-        }
-
-        //Find the sale with the greatest total
-        Sale maxSale = sales.get(0);
-
-        for (Sale sale : sales) {
-            if (sale.getTotal() > maxSale.getTotal()) {
-            maxSale = sale;
-        }
-        }
-        // Calculate total products (sum of quantities)
-        int totalProducts = 0;
-        for (SalesDetail item : maxSale.getItems()) {
-            totalProducts += item.getQuantity();
-        }
-        // Build DTO
-        SalesDetailDTO dto = new SalesDetailDTO();
-        dto.setSaleId(maxSale.getSaleId());
-        dto.setTotalSaleAmount(maxSale.getTotal());
-        dto.setCustomerName(maxSale.getCustomer().getFisrtName());
-        dto.setCustomerLastName(maxSale.getCustomer().getLastName());
-        dto.setTotalProd(totalProducts);
-
-        return dto;
+    public SaleDTO getSaleWithGreatestTotalAmount() {
+        Sale maxSale =  saleRepo.findAll()
+                .stream().max(Comparator.comparingDouble(Sale::getTotal))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No sales found"));
+        return Mapper.toSaleDTO(maxSale);
 
     }
 

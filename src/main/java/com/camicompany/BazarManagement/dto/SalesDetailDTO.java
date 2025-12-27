@@ -9,11 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SalesDetailDTO {
-    private Long saleId;
-    private Double totalSaleAmount;
-    private int totalProd;
-    private String customerName;
-    private String customerLastName;
-
+    private Long saleDetailId;
+    private Long productId;
+    private String productName;
+    private Integer quantity;
+    private Double unitPrice;
+    private Double subTotal;
 
 }

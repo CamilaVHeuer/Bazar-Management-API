@@ -17,10 +17,9 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
-    private String fisrtName;
+    private String firstName;
     private String lastName;
     private String dni;
     @OneToMany(mappedBy="customer")
-    @JsonIgnore
     private List<Sale> saleList;
 }

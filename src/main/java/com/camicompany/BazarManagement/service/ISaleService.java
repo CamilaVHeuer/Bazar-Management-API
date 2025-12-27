@@ -1,5 +1,7 @@
 package com.camicompany.BazarManagement.service;
 
+import com.camicompany.BazarManagement.dto.ProductDTO;
+import com.camicompany.BazarManagement.dto.SaleDTO;
 import com.camicompany.BazarManagement.dto.SalesDetailDTO;
 import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
 import com.camicompany.BazarManagement.model.Product;
@@ -10,23 +12,23 @@ import java.util.List;
 
 public interface ISaleService {
     //READ ALL
-    public List<Sale> getAllSales();
+    public List<SaleDTO> getAllSales();
     //CREATE
-    public Sale createSale(Sale sale);
+    public SaleDTO createSale(SaleDTO saleDTO);
     //READ BY ID
-    public Sale getSaleById(Long id);
+    public SaleDTO getSaleById(Long id);
     //UPDATE
-    public Sale updateSale(Long id, Sale saleDetails);
-    //DELETE
+    public SaleDTO updateSale(Long id, SaleDTO saleDetailsDTO);
+    //DELETE BY ID
     public void deleteSale(Long id);
 
     //PRODUCT LIST BY SALE ID
-    public List<Product> getProductsBySaleId(Long saleId);
+    public List<ProductDTO> getProductsBySaleId(Long saleId);
 
     //GET TOTAL SALES AMOUNT BY DATE AND TOTAL AMOUNT
     public SalesSummaryDTO getTotalSalesAmountByDateAndtotalAmount(LocalDate date);
 
     //GET SALE WITH GREATEST TOTAL AMOUNT
-    public SalesDetailDTO getSaleWithGreatestTotalAmount();
+    public SaleDTO getSaleWithGreatestTotalAmount();
 
 }

@@ -21,9 +21,8 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleId;
     private LocalDate dateSale;
-    private Double total;
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    private Double total; //calculated field
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SalesDetail> items;
     @ManyToOne
     @JoinColumn(name = "customer_id")

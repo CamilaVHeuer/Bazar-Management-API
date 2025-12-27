@@ -17,15 +17,16 @@ public class SalesDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleDetailId;
-    private Integer quantity;
-    private Double unitPrice;
-    private Double subTotal;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-    @ManyToOne
+    private String productName;
+    private Integer quantity;
+    private Double unitPrice;
+    private Double subTotal; // calculated field
+
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_id")
-    @JsonBackReference
     private Sale sale;
 
 }

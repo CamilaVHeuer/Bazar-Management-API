@@ -23,6 +23,5 @@ public class Product {
     private Double unitPrice;
     private Integer stock;
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private List<SalesDetail> items;
 }

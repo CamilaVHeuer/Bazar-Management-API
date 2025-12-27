@@ -1,45 +1,52 @@
 package com.camicompany.BazarManagement.controller;
 
-import com.camicompany.BazarManagement.model.Product;
+import com.camicompany.BazarManagement.dto.ProductDTO;
 import com.camicompany.BazarManagement.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping ("/api/products")
 public class ProductController {
+
     @Autowired
     private IProductService prodServ;
 
-    @PostMapping ("/products/create")
-    public Product createProduct(@RequestBody Product prod) {
-       return prodServ.createProduct(prod);
+    @PostMapping
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO prodDTO) {
+       ProductDTO createdProduct = prodServ.createProduct(prodDTO);
+        return ResponseEntity.created(URI.create("/api/products/" + createdProduct.getProductId())).body(createdProduct);
     }
 
-    @GetMapping ("/products")
-    public List<Product> getAllProducts() {
-        return prodServ.getAllProducts();
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.ok(prodServ.getAllProducts());
     }
 
-    @GetMapping ("/products/{id}")
-    public Product getProductById(@PathVariable Long id){
-        return prodServ.getProductById(id);
+    @GetMapping ("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
+
+        return ResponseEntity.ok(prodServ.getProductById(id));
     }
 
-    @PutMapping ("/products/update/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product prodDetails) {
-        return prodServ.updateProduct(id, prodDetails);
+    @PutMapping ("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO prodDetailsDTO) {
+        return ResponseEntity.ok(prodServ.updateProduct(id, prodDetailsDTO));
     }
 
-    @DeleteMapping ("/products/delete/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         prodServ.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping ("/products/low-stock")
-    public List<Product> getProductsLowStock() {
-        return prodServ.getProductsLowStock();
+    @GetMapping ("/low-stock")
+    public ResponseEntity<List<ProductDTO>> getProductsLowStock() {
+        return ResponseEntity.ok(prodServ.getProductsLowStock());
     }
 
 

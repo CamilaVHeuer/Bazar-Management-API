@@ -1,5 +1,6 @@
 package com.camicompany.BazarManagement.service;
 
+import com.camicompany.BazarManagement.dto.ProductDTO;
 import com.camicompany.BazarManagement.model.Product;
 
 import java.util.List;
@@ -7,22 +8,22 @@ import java.util.List;
 public interface IProductService {
 
     //READ ALL
-    public List<Product> getAllProducts();
+    public List<ProductDTO> getAllProducts();
 
     //CREATE
-    public Product createProduct(Product product);
+    public ProductDTO createProduct(ProductDTO productDTO);
 
     //READ BY ID
-    public Product getProductById(Long id);
+    public ProductDTO getProductById(Long id);
 
     //UPDATE
-    public Product updateProduct(Long id, Product productDetails);
+    public ProductDTO updateProduct(Long id, ProductDTO productDetailsDTO);
 
     //DELETE
     public void deleteProduct(Long id);
 
     //GET Products with low stock
-    public List<Product> getProductsLowStock();
+    public List<ProductDTO> getProductsLowStock();
 
 
 }

@@ -1,62 +1,62 @@
 package com.camicompany.BazarManagement.controller;
 
 
-import com.camicompany.BazarManagement.dto.SalesDetailDTO;
+import com.camicompany.BazarManagement.dto.ProductDTO;
+import com.camicompany.BazarManagement.dto.SaleDTO;
 import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
-import com.camicompany.BazarManagement.model.Product;
-import com.camicompany.BazarManagement.model.Sale;
 import com.camicompany.BazarManagement.service.ISaleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping ("/api/sales")
 public class SaleController {
     @Autowired
     private ISaleService saleServ;
 
-    @PostMapping("/sales/create")
-    public Sale createSale(@RequestBody Sale sale) {
-
-        return saleServ.createSale(sale);
+    @PostMapping
+    public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO) {
+    SaleDTO createdSale = saleServ.createSale(saleDTO);
+        return ResponseEntity.created(URI.create("/api/sales" + createdSale.getSaleId())).body(createdSale);
     }
 
-    @GetMapping("/sales")
-    public List<Sale> getAllSales()
-    {
-        return saleServ.getAllSales();
+    @GetMapping
+    public ResponseEntity<List<SaleDTO>> getAllSales() {
+        return ResponseEntity.ok(saleServ.getAllSales());
     }
 
-    @GetMapping ("/sales/{id}")
-    public Sale getSaleById(@PathVariable Long id){
-
-        return saleServ.getSaleById(id);
+    @GetMapping ("/{id}")
+    public ResponseEntity<SaleDTO> getSaleById(@PathVariable Long id){
+        return ResponseEntity.ok(saleServ.getSaleById(id));
     }
 
-    @PutMapping ("/sales/update/{id}")
-    public Sale updateSale(@PathVariable Long id, @RequestBody Sale newSaleData) {
-        return saleServ.updateSale(id, newSaleData);
+    @PutMapping ("/{id}")
+    public ResponseEntity<SaleDTO> updateSale(@PathVariable Long id, @RequestBody SaleDTO newSaleDataDTO) {
+        return ResponseEntity.ok(saleServ.updateSale(id, newSaleDataDTO));
     }
 
-    @DeleteMapping ("/sales/delete/{id}")
-    public void deleteSale(@PathVariable Long id) {
+    @DeleteMapping ("{id}")
+    public ResponseEntity<Void> deleteSale(@PathVariable Long id) {
        saleServ.deleteSale(id);
+       return ResponseEntity.noContent().build();
     }
 
-    @GetMapping ("/sales/products/{saleId}")
-    public List<Product> getProductsBySaleId(@PathVariable Long saleId) {
-        return saleServ.getProductsBySaleId(saleId);
+    @GetMapping ("/products/{saleId}")
+    public ResponseEntity<List<ProductDTO>> getProductsBySaleId(@PathVariable Long saleId) {
+        return ResponseEntity.ok(saleServ.getProductsBySaleId(saleId));
     }
 
-    @GetMapping ("/sales/date/{date}")
-    public SalesSummaryDTO getTotalSalesAmountByDateAndtotalAmount(@PathVariable LocalDate date){
-        return saleServ.getTotalSalesAmountByDateAndtotalAmount(date);
+    @GetMapping ("/date/{date}")
+    public ResponseEntity<SalesSummaryDTO> getTotalSalesAmountByDateAndtotalAmount(@PathVariable LocalDate date){
+        return ResponseEntity.ok(saleServ.getTotalSalesAmountByDateAndtotalAmount(date));
     }
-    @GetMapping ("/sales/greatest-total-amount")
-    public SalesDetailDTO getSaleWithGreatestTotalAmount(){
-        return saleServ.getSaleWithGreatestTotalAmount();
+    @GetMapping ("/greatest-total-amount")
+    public ResponseEntity<SaleDTO> getSaleWithGreatestTotalAmount(){
+        return ResponseEntity.ok(saleServ.getSaleWithGreatestTotalAmount());
     }
 
 }
