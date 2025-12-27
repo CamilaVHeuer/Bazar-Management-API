@@ -1,4 +1,4 @@
 package com.camicompany.BazarManagement.dto;
 
-public class CustomerDTO {
+public class SaleDTO {
 }
