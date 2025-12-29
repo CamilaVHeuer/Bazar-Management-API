@@ -1,103 +1,108 @@
 # 🏪 Bazar Management API
 
-**Sistema de Gestión de Bazar desarrollado con Spring Boot**
+**Bazar Management System developed with Spring Boot**
 
-> **Proyecto Integrador** desarrollado como parte del curso "Desarrollo de APIs con Spring Boot" de **TodoCode Academy**. La implementación y diseño arquitectónico son completamente originales, orientados a demostrar competencias profesionales en desarrollo backend con Java.
+> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional compe### **Prerequisites**
 
----
-
-## 📋 **Descripción del Proyecto**
-
-**Bazar Management** es una API REST completa para la gestión de un bazar, que permite administrar productos, clientes y ventas. El sistema implementa operaciones CRUD completas y funcionalidades avanzadas de negocio, siguiendo las mejores prácticas de desarrollo con Spring Boot.
-
-### 🎯 **Propósito**
-
-Este proyecto forma parte de mi **portfolio profesional** como desarrollador backend Java, demostrando competencias en:
-
-- Desarrollo de APIs REST robustas
-- Implementación de arquitectura en capas
-- Aplicación de patrones de diseño
-- Programación funcional con Java 8+
-- Manejo profesional de excepciones
+- ☕ Java 17 or higher
+- 📦 Maven 3.6+
+- 🗄️ H2 Database (included) for immediate testing. Ready to run.
+- 🗄️ MySQL + XAMPP (optional, for local development)s in backend development with Java.
 
 ---
 
-## 🚀 **Funcionalidades Principales**
+## 📋 **Project Description**
 
-### **👥 Gestión de Clientes**
+**Bazar Management** is a complete REST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
 
-- ✅ CRUD completo de clientes
-- ✅ Validaciones de campos obligatorios
-- ✅ Validación de DNI único (con método `existsByDni()`)
-- ✅ Búsqueda por ID con manejo de excepciones
-- ✅ Actualizaciones parciales inteligentes
+### 🎯 **Purpose**
 
-### **📦 Gestión de Productos**
+This project is part of my **professional portfolio** as a Java backend developer, demonstrating competencies in:
 
-- ✅ CRUD completo de productos
-- ✅ Control de inventario (stock)
-- ✅ Consulta de productos con stock bajo (con método `findByStockLessThanEqual()`)
-- ✅ Actualizaciones parciales que preservan datos existentes
+- Robust REST API development
+- Layered architecture implementation
+- Design patterns application
+- Functional programming with Java 8+
+- Professional exception handling
 
-### **🛒 Gestión de Ventas**
+---
 
-- ✅ Creación de ventas multi-producto
-- ✅ Validación automática de stock disponible
-- ✅ Actualización automática de inventario
-- ✅ Cálculo automático de subtotales y total
-- ✅ Consultas avanzadas (venta mayor, resumen por fecha)
-- ✅ Obtener productos de una venta específica
+## 🚀 **Main Features**
 
-### **📊 Diagrama UML del Sistema**
+### **👥 Customer Management**
 
-El proyecto incluye un **diagrama UML completo** que muestra las relaciones entre entidades, DTOs y la arquitectura del sistema.
+- ✅ Complete CRUD operations for customers
+- ✅ Mandatory field validations
+- ✅ Unique DNI validation (with `existsByDni()` method)
+- ✅ Search by ID with exception handling
+- ✅ Intelligent partial updates
 
-📄 **Archivo**: [`UML Bazar-Management API.png`](./UML%20Bazar-Management%20API.png)
+### **📦 Product Management**
 
-**Modelo de Datos - 4 entidades principales:**
+- ✅ Complete CRUD operations for products
+- ✅ Inventory control (stock)
+- ✅ Low stock product queries (with `findByStockLessThanEqual()` method)
+- ✅ Partial updates that preserve existing data
 
-- **👤 Customer**: Gestión de clientes (customerId, firstName, lastName, dni)
-- **📦 Product**: Gestión de productos (productId, name, brand, unitPrice, stock)
-- **🛒 Sale**: Gestión de ventas (saleId, dateSale, customerId, total)
-- **🧾 SalesDetail**: Detalles de venta (productId, quantity, unitPrice, subTotal)
+### **🛒 Sales Management**
 
-**Relaciones Principales:**
+- ✅ Multi-product sales creation
+- ✅ Automatic available stock validation
+- ✅ Automatic inventory updates
+- ✅ Automatic calculation of subtotals and total
+- ✅ Advanced queries (highest sale, summary by date)
+- ✅ Get products from a specific sale
+
+### **📊 System UML Diagram**
+
+The project includes a **complete UML diagram** that shows the relationships between entities, DTOs and system architecture.
+
+📄 **File**: [`UML Bazar-Management API.png`](./UML%20Bazar-Management%20API.png)
+
+**Data Model - 4 main entities:**
+
+- **👤 Customer**: Customer management (customerId, firstName, lastName, dni)
+- **📦 Product**: Product management (productId, name, brand, unitPrice, stock)
+- **🛒 Sale**: Sales management (saleId, dateSale, customerId, total)
+- **🧾 SalesDetail**: Sale details (productId, quantity, unitPrice, subTotal)
+
+**Main Relationships:**
 
 - **Customer** `makes` **Sale** (1:N)
 - **Product** `appears in` **SalesDetail** (1:N)
 - **Sale** `contains` **SalesDetail** (1:N)
-- **Mapeo DTO ↔ Entity** para todas las capas
+- **DTO ↔ Entity mapping** for all layers
 
-> El diagrama ilustra la arquitectura completa incluyendo entidades JPA, DTOs, y las relaciones entre todos los componentes del sistema.
+> The diagram illustrates the complete architecture including JPA entities, DTOs, and relationships between all system components.
 
 ---
 
-## 🏗️ **Arquitectura y Patrones Implementados**
+## 🏗️ **Architecture and Implemented Patterns**
 
-### **Arquitectura MVC - Capas**
+### **MVC Architecture - Layers**
 
 ```
 📦 Bazar-Management/
-├── 🎮 Controller/     # Capa de presentación (REST Controllers)
-├── 💼 Service/        # Capa de lógica de negocio
-├── 🗃️ Repository/     # Capa de acceso a datos (JPA)
-├── 🏗️ Model/          # Entidades JPA
+├── 🎮 Controller/     # Presentation layer (REST Controllers)
+├── 💼 Service/        # Business logic layer
+├── 🗃️ Repository/     # Data access layer (JPA)
+├── 🏗️ Model/          # JPA Entities
 ├── 📦 DTO/            # Data Transfer Objects
-└── 🔄 Mapper/         # Conversores Entity ↔ DTO
+└── 🔄 Mapper/         # Entity ↔ DTO Converters
 ```
 
-### **Patrones de Diseño Implementados**
+### **Implemented Design Patterns**
 
-- **🔄 DTO Pattern**: Transferencia segura de datos entre capas
-- **📋 Repository Pattern**: Abstracción de acceso a datos
-- **🏭 Service Layer Pattern**: Encapsulación de lógica de negocio
-- **🗂️ Mapper Pattern**: Conversión entre entidades y DTOs
+- **🔄 DTO Pattern**: Secure data transfer between layers
+- **📋 Repository Pattern**: Data access abstraction
+- **🏭 Service Layer Pattern**: Business logic encapsulation
+- **🗂️ Mapper Pattern**: Entity ↔ DTO conversion
 
-### **Programación Funcional**
+### **Functional Programming**
 
-- **λ Expresiones Lambda**: Para operaciones de filtrado y mapeo
-- **🌊 Stream API**: Procesamiento de colecciones
-- **📎 Method References**: Código más limpio y legible
+- **λ Lambda Expressions**: For filtering and mapping operations
+- **🌊 Stream API**: Collection processing
+- **📎 Method References**: Cleaner and readable code
 
 ```java
 // Ejemplo de programación funcional implementada
@@ -107,12 +112,12 @@ return saleRepo.findAll()
     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No sales found"));
 ```
 
-### **ResponseEntity para Respuestas HTTP**
+### **ResponseEntity for HTTP Responses**
 
-Todas las respuestas implementan **ResponseEntity** para un control granular de códigos de estado HTTP:
+All responses implement **ResponseEntity** for granular control of HTTP status codes:
 
 ```java
-// Ejemplos de respuestas estructuradas
+// Examples of structured responses
 return ResponseEntity.ok(productDTO);                           // 200 OK
 return ResponseEntity.created(location).body(productDTO);       // 201 Created
 return ResponseEntity.notFound().build();                       // 404 Not Found
@@ -125,71 +130,71 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
 ---
 
-## ️ **Stack Tecnológico**
+## ️ **Technology Stack**
 
-| Tecnología          | Versión | Propósito                          |
-| ------------------- | ------- | ---------------------------------- |
-| **Java**            | 17      | Lenguaje de programación           |
-| **Spring Boot**     | 3.x     | Framework principal                |
-| **Spring Data JPA** | -       | ORM y acceso a datos               |
-| **MySQL**           | 8.x     | Base de datos (producción)         |
-| **H2 Database**     | -       | Base de datos (desarrollo/testing) |
-| **Maven**           | -       | Gestión de dependencias            |
-| **Lombok**          | -       | Reducción de código boilerplate    |
-| **Postman**         | -       | Testing de endpoints               |
+| Technology          | Version | Purpose                      |
+| ------------------- | ------- | ---------------------------- |
+| **Java**            | 17      | Programming language         |
+| **Spring Boot**     | 3.x     | Main framework               |
+| **Spring Data JPA** | -       | ORM and data access          |
+| **H2 Database**     | -       | Main database (in-memory)    |
+| **MySQL**           | 8.x     | Alternative database (XAMPP) |
+| **Maven**           | -       | Dependency management        |
+| **Lombok**          | -       | Boilerplate code reduction   |
+| **Postman**         | -       | Endpoint testing             |
 
 ---
 
-## **Endpoints de la API**
+## **API Endpoints**
 
 **Base URL**: `http://localhost:8080/api`
 
-### **👥 Clientes**
+### **👥 Customers**
 
 ```http
-GET    /customers           # Listar todos los clientes
-POST   /customers           # Crear nuevo cliente
-GET    /customers/{id}      # Obtener cliente por ID
-PUT    /customers/{id}      # Actualizar cliente (parcial)
-DELETE /customers/{id}      # Eliminar cliente
+GET    /customers           # List all customers
+POST   /customers           # Create new customer
+GET    /customers/{id}      # Get customer by ID
+PUT    /customers/{id}      # Update customer (partial)
+DELETE /customers/{id}      # Delete customer
 ```
 
-### **📦 Productos**
+### **📦 Products**
 
 ```http
-GET    /products            # Listar todos los productos
-POST   /products            # Crear nuevo producto
-GET    /products/{id}       # Obtener producto por ID
-PUT    /products/{id}       # Actualizar producto (parcial)
-DELETE /products/{id}       # Eliminar producto
-GET    /products/low-stock  # Productos con stock bajo (≤ 5)
+GET    /products            # List all products
+POST   /products            # Create new product
+GET    /products/{id}       # Get product by ID
+PUT    /products/{id}       # Update product (partial)
+DELETE /products/{id}       # Delete product
+GET    /products/low-stock  # Products with low stock (≤ 5)
 ```
 
-### **🛒 Ventas**
+### **🛒 Sales**
 
 ```http
-GET    /sales               # Listar todas las ventas
-POST   /sales               # Crear nueva venta
-GET    /sales/{id}          # Obtener venta por ID
-PUT    /sales/{id}          # Actualizar venta (solo cliente y fecha)
-DELETE /sales/{id}          # Eliminar venta
-GET    /sales/products/{id} # Productos de una venta específica
-GET    /sales/date/{date}   # Resumen de ventas por fecha
-GET    /sales/greatest-total-amount    # Venta con mayor monto
+GET    /sales               # List all sales
+POST   /sales               # Create new sale
+GET    /sales/{id}          # Get sale by ID
+PUT    /sales/{id}          # Update sale (customer and date only)
+DELETE /sales/{id}          # Delete sale
+GET    /sales/products/{id} # Products from a specific sale
+GET    /sales/date/{date}   # Sales summary by date
+GET    /sales/greatest-total-amount    # Sale with highest amount
 ```
 
 ---
 
-## 💡 **Ejemplos de Uso**
+## 💡 **Usage Examples**
 
-### **Crear un Producto**
+### **Create a Product**
 
 ```json
 POST /api/products
 Content-Type: application/json
 
 {
-    "name": "Vaso de vidrio transparente 250ml",
+    "name": "Transparent glass cup 250ml",
     "brand": "Luminarc",
     "unitPrice": 8.50,
     "stock": 24
@@ -198,14 +203,14 @@ Content-Type: application/json
 Response: 201 Created
 {
     "productId": 1,
-    "name": "Vaso de vidrio transparente 250ml",
+    "name": "Transparent glass cup 250ml",
     "brand": "Luminarc",
     "unitPrice": 8.50,
     "stock": 24
 }
 ```
 
-### **Crear una Venta**
+### **Create a Sale**
 
 ```json
 POST /api/sales
@@ -236,7 +241,7 @@ Response: 201 Created
         {
             "saleDetailId": 1,
             "productId": 1,
-            "productName": "Vaso de vidrio transparente 250ml",
+            "productName": "Transparent glass cup 250ml",
             "quantity": 4,
             "unitPrice": 8.50,
             "subTotal": 34.00
@@ -244,7 +249,7 @@ Response: 201 Created
         {
             "saleDetailId": 2,
             "productId": 2,
-            "productName": "Plato hondo 22cm",
+            "productName": "Deep plate 22cm",
             "quantity": 1,
             "unitPrice": 25.00,
             "subTotal": 25.00
@@ -253,11 +258,11 @@ Response: 201 Created
 }
 ```
 
-> ✨ **Nota**: Para más ejemplos detallados, consultar la **colección de Postman** incluida en el proyecto.
+> ✨ **Note**: For more detailed examples, check the **Postman collection** included in the project.
 
-### **Consultas Especiales**
+### **Special Queries**
 
-#### **Productos con Stock Bajo**
+#### **Low Stock Products**
 
 ```http
 GET /api/products/low-stock
@@ -266,7 +271,7 @@ Response: 200 OK
 [
     {
         "productId": 3,
-        "name": "Set de cubiertos 24pcs",
+        "name": "Cutlery set 24pcs",
         "brand": "Tramontina",
         "unitPrice": 45.00,
         "stock": 2
@@ -276,33 +281,33 @@ Response: 200 OK
 
 ---
 
-## ⚡ **Características Técnicas Destacadas**
+## ⚡ **Outstanding Technical Features**
 
-### **🔒 Validaciones Robustas**
+### **🔒 Robust Validations**
 
-El sistema implementa validaciones exhaustivas en todas las capas:
+The system implements exhaustive validations across all layers:
 
-- ✅ **Campos obligatorios**: Verificación de datos nulos y strings vacíos
-- ✅ **Unicidad de datos**: Prevención de DNI duplicados y recursos existentes
-- ✅ **Reglas de negocio**: Validación de valores negativos, stock insuficiente
-- ✅ **Integridad temporal**: Verificación de fechas futuras y coherencia de datos
-- ✅ **Códigos HTTP apropiados**: 400 Bad Request, 409 Conflict, 404 Not Found
+- ✅ **Mandatory fields**: Null data and empty string verification
+- ✅ **Data uniqueness**: Prevention of duplicate DNI and existing resources
+- ✅ **Business rules**: Validation of negative values, insufficient stock
+- ✅ **Temporal integrity**: Future date verification and data consistency
+- ✅ **Appropriate HTTP codes**: 400 Bad Request, 409 Conflict, 404 Not Found
 
-### **🗃️ Integridad de Datos y Cascade**
+### **🗃️ Data Integrity and Cascade Operations**
 
-El sistema implementa **operaciones en cascada** para mantener la integridad referencial:
+The system implements **cascade operations** to maintain referential integrity:
 
-- ✅ **CascadeType.ALL**: Las operaciones de venta afectan automáticamente a sus detalles
-- ✅ **Prevención de registros huérfanos**: Al eliminar una venta, se eliminan todos los SalesDetail asociados
-- ✅ **Integridad referencial**: Garantiza consistencia entre entidades relacionadas
-- ✅ **Transacciones automáticas**: Operaciones atómicas para mantener la coherencia de datos
+- ✅ **CascadeType.ALL**: Sale operations automatically affect their details
+- ✅ **Orphaned record prevention**: When deleting a sale, all associated SalesDetail are deleted
+- ✅ **Referential integrity**: Guarantees consistency between related entities
+- ✅ **Automatic transactions**: Atomic operations to maintain data coherence
 
-### **🛡️ Manejo Profesional de Excepciones**
+### **🛡️ Professional Exception Handling**
 
-El sistema implementa un manejo robusto de errores con **ResponseStatusException** y códigos HTTP semánticos:
+The system implements robust error handling with **ResponseStatusException** and semantic HTTP codes:
 
 ```java
-// Ejemplo de manejo de excepciones personalizado
+// Example of custom exception handling
 Customer customer = customerRepo.findById(id)
     .orElseThrow(() -> new ResponseStatusException(
         HttpStatus.NOT_FOUND,
@@ -310,175 +315,189 @@ Customer customer = customerRepo.findById(id)
     ));
 ```
 
-## 🚀 **Instalación y Ejecución**
+## 🚀 **Installation and Execution**
 
 ### **Prerrequisitos**
 
 - ☕ Java 17 o superior
 - 📦 Maven 3.6+
-- 🗄️ MySQL 8.x (opcional, incluye H2 para desarrollo)
+- � Usa H2 Database (incluida) para pruebas inmediatas. Listo para ejecutar.
+- �🗄️ MySQL + XAMPP (opcional, para desarrollo local)
 
-### **Configuración**
+### **Configuration**
 
-1. **Clonar el repositorio**
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/CamilaVHeuer/Bazar-Management-API.git
 cd Bazar-Management-API
 ```
 
-2. **Configurar base de datos**
+2. **Database configuration**
 
-**Para H2 (Recomendado para desarrollo):**
+**🚀 Default configuration (H2 Database):**
+
+> The application comes **preconfigured** to run with H2. You just need to clone and run!
 
 ```properties
-# application.properties
-spring.datasource.url=jdbc:h2:mem:bazar_db
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
+# application.properties (already configured)
+spring.application.name=BazarManagement
 
+# DATASOURCE (H2) - In-memory database
+spring.datasource.url=jdbc:h2:mem:bazar_management;MODE=MySQL;DB_CLOSE_DELAY=-1;
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=tu_user
+spring.datasource.password=tu_password
+
+# JPA / HIBERNATE
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# H2 CONSOLE
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
-
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.show-sql=true
 ```
 
-**Para MySQL (Producción):**
+**🗄️ Alternative: MySQL with XAMPP (for local development):**
+
+If you prefer to use MySQL with XAMPP, replace the `application.properties`:
 
 ```properties
 # application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/bazar_db
-spring.datasource.username=tu_usuario
-spring.datasource.password=tu_password
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.application.name=BazarManagement
+server.port=8080
 
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+# DATASOURCE (MySQL + XAMPP)
+spring.datasource.url=jdbc:mysql://localhost:3306/bazar_management?useSSL=false&serverTimezone=UTC
+spring.datasource.username=tu_user
+spring.datasource.password=tu_password
+
+# JPA / HIBERNATE
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
-3. **Ejecutar la aplicación**
+3. **Run the application**
 
 ```bash
-# Compilar el proyecto
+# Compile the project
 mvn clean compile
 
-# Ejecutar la aplicación
+# Run the application
 mvn spring-boot:run
 ```
 
-4. **Acceder a los servicios**
+4. **Access the services**
 
 - **API Base**: `http://localhost:8080/api`
-- **H2 Console** (si está habilitado): `http://localhost:8080/h2-console`
+- **H2 Console** (if enabled): `http://localhost:8080/h2-console`
 
 ---
 
 ## 🧪 **Testing**
 
-### **Colección de Postman**
+### **Postman Collection**
 
-El proyecto incluye una colección de Postman con:
+The project includes a Postman collection with:
 
-- ✅ Todos los endpoints para Customers, Products y Sales
-- ✅ Ejemplos de requests con datos de prueba
-- ✅ Requests para todos los métodos HTTP (GET, POST, PUT, DELETE)
+- ✅ All endpoints for Customers, Products and Sales
+- ✅ Request examples with test data
+- ✅ Requests for all HTTP methods (GET, POST, PUT, DELETE)
 
-**Para importar la colección:**
+**To import the collection:**
 
-1. Abrir Postman
-2. Click en "Import"
-3. Navegar a la carpeta `postman/` del proyecto
-4. Seleccionar el archivo `Bazar-Management-API.postman_collection.json`
+1. Open Postman
+2. Click on "Import"
+3. Navigate to the project's `postman/` folder
+4. Select the `Bazar-Management-API.postman_collection.json` file
 
-> 📝 **Nota**: La colección contiene todas las requests necesarias para probar la funcionalidad completa de la API.
+> 📝 **Note**: The collection contains all necessary requests to test the complete API functionality.
 
-## 🔧 **Estructura del Proyecto**
+## 🔧 **Project Structure**
 
-### **Estructura General**
+### **General Structure**
 
 ```
 Bazar-Management/
-├── 📄 README.md                     # Documentación principal del proyecto
-├── 📊 UML Bazar-Management API.png  # Diagrama UML completo del sistema
-├── 📄 HELP.md                       # Guía de ayuda de Spring Boot
-├── 📄 pom.xml                       # Configuración Maven y dependencias
-├── 📁 postman/                      # Colección de Postman para testing
+├── 📄 README.md                     # Main project documentation
+├── 📊 UML Bazar-Management API.png  # Complete system UML diagram
+├── 📄 HELP.md                       # Spring Boot help guide
+├── 📄 pom.xml                       # Maven configuration and dependencies
+├── 📁 postman/                      # Postman collection for testing
 │   └── Bazar-Management-API.postman_collection.json
 ├── 📁 src/main/java/com/camicompany/BazarManagement/
 │   ├── 📁 controller/               # REST endpoints
-│   │   ├── CustomerController.java  # Endpoints para clientes
-│   │   ├── ProductController.java   # Endpoints para productos
-│   │   └── SaleController.java      # Endpoints para ventas
+│   │   ├── CustomerController.java  # Customer endpoints
+│   │   ├── ProductController.java   # Product endpoints
+│   │   └── SaleController.java      # Sales endpoints
 │   ├── 📁 dto/                      # Data Transfer Objects
-│   │   ├── CustomerDTO.java         # DTO de cliente
-│   │   ├── ProductDTO.java          # DTO de producto
-│   │   ├── SaleDTO.java             # DTO de venta
-│   │   ├── SalesDetailDTO.java      # DTO de detalle de venta
-│   │   └── SalesSummaryDTO.java     # DTO de resumen de ventas
+│   │   ├── CustomerDTO.java         # Customer DTO
+│   │   ├── ProductDTO.java          # Product DTO
+│   │   ├── SaleDTO.java             # Sale DTO
+│   │   ├── SalesDetailDTO.java      # Sales detail DTO
+│   │   └── SalesSummaryDTO.java     # Sales summary DTO
 │   ├── 📁 mapper/
-│   │   └── Mapper.java              # Conversiones Entity ↔ DTO
-│   ├── 📁 model/                    # Entidades JPA
-│   │   ├── Customer.java            # Entidad de cliente
-│   │   ├── Product.java             # Entidad de producto
-│   │   ├── Sale.java                # Entidad de venta
-│   │   └── SalesDetail.java         # Entidad de detalle de venta
-│   ├── 📁 repository/               # Capa de acceso a datos
-│   │   ├── ICustomerRepository.java # Repositorio de clientes
-│   │   ├── IProductRepository.java  # Repositorio de productos
-│   │   └── ISaleRepository.java     # Repositorio de ventas
-│   ├── 📁 service/                  # Capa de lógica de negocio
-│   │   ├── ICustomerService.java    # Interfaz servicio cliente
-│   │   ├── CustomerService.java     # Implementación servicio cliente
-│   │   ├── IProductService.java     # Interfaz servicio producto
-│   │   ├── ProductService.java      # Implementación servicio producto
-│   │   ├── ISaleService.java        # Interfaz servicio venta
-│   │   └── SaleService.java         # Implementación servicio venta
-│   └── BazarManagementApplication.java # Clase principal Spring Boot
+│   │   └── Mapper.java              # Entity ↔ DTO conversions
+│   ├── 📁 model/                    # JPA Entities
+│   │   ├── Customer.java            # Customer entity
+│   │   ├── Product.java             # Product entity
+│   │   ├── Sale.java                # Sale entity
+│   │   └── SalesDetail.java         # Sales detail entity
+│   ├── 📁 repository/               # Data access layer
+│   │   ├── ICustomerRepository.java # Customer repository
+│   │   ├── IProductRepository.java  # Product repository
+│   │   └── ISaleRepository.java     # Sales repository
+│   ├── 📁 service/                  # Business logic layer
+│   │   ├── ICustomerService.java    # Customer service interface
+│   │   ├── CustomerService.java     # Customer service implementation
+│   │   ├── IProductService.java     # Product service interface
+│   │   ├── ProductService.java      # Product service implementation
+│   │   ├── ISaleService.java        # Sales service interface
+│   │   └── SaleService.java         # Sales service implementation
+│   └── BazarManagementApplication.java # Main Spring Boot class
 ├── 📁 src/main/resources/
-│   ├── application.properties       # Configuración de la aplicación
-│   ├── 📁 static/                   # Recursos estáticos
-│   └── 📁 templates/                # Plantillas (si las hubiera)
-└── 📁 src/test/java/               # Tests unitarios
+│   ├── application.properties       # Application configuration
+│   ├── 📁 static/                   # Static resources
+│   └── 📁 templates/                # Templates (if any)
+└── 📁 src/test/java/               # Unit tests
     └── com/camicompany/BazarManagement/
         └── BazarManagementApplicationTests.java
 ```
 
-## 🎯 **Competencias Técnicas Demostradas**
+## 🎯 **Demonstrated Technical Competencies**
 
 ### **Backend Development**
 
-- ✅ Desarrollo de APIs REST completas
-- ✅ Implementación de arquitectura en capas (MVC)
-- ✅ Manejo de relaciones complejas en JPA
-- ✅ Implementación de patrones de diseño
+- ✅ Complete REST API development
+- ✅ Layered architecture implementation (MVC)
+- ✅ Complex JPA relationship handling
+- ✅ Design pattern implementation
 
 ### **Spring Framework**
 
-- ✅ Spring Boot para configuración automática
-- ✅ Spring Data JPA para persistencia
-- ✅ Spring Web para controladores REST
-- ✅ Dependency Injection con @Autowired
+- ✅ Spring Boot for auto-configuration
+- ✅ Spring Data JPA for persistence
+- ✅ Spring Web for REST controllers
+- ✅ Dependency Injection with @Autowired
 
-### **Java Moderno**
+### **Modern Java**
 
-- ✅ Programación funcional (Streams, Lambda, Method References)
-- ✅ Optional para manejo seguro de nulos
-- ✅ Lombok para reducción de boilerplate
-- ✅ Manejo de fechas con LocalDate
+- ✅ Functional programming (Streams, Lambda, Method References)
+- ✅ Optional for safe null handling
+- ✅ Lombok for boilerplate reduction
+- ✅ Date handling with LocalDate
 
-### **Bases de Datos**
+### **Databases**
 
-- ✅ Diseño de esquemas relacionales
-- ✅ Implementación de relaciones 1:N
-- ✅ Consultas derivadas de JPA
-- ✅ Métodos personalizados en repositorios (`existsByDni`, `findByStockLessThanEqual`)
-- ✅ Transacciones automáticas
+- ✅ Relational schema design
+- ✅ 1:N relationship implementation
+- ✅ JPA derived queries
+- ✅ Custom repository methods (`existsByDni`, `findByStockLessThanEqual`)
+- ✅ Automatic transactions
 
-### **Buenas Prácticas**
+### **Best Practices**
 
 - ✅ Separation of Concerns
 - ✅ Defensive Programming
@@ -488,22 +507,22 @@ Bazar-Management/
 
 ---
 
-## 🛡️ **Manejo de Errores**
+## 🛡️ **Error Handling**
 
-El sistema implementa un manejo robusto de errores con códigos HTTP apropiados:
+The system implements robust error handling with appropriate HTTP codes:
 
-### **Códigos de Estado Implementados**
+### **Implemented Status Codes**
 
-| Código  | Descripción           | Ejemplo                            |
-| ------- | --------------------- | ---------------------------------- |
-| **200** | OK                    | Operación exitosa                  |
-| **201** | Created               | Entidad creada correctamente       |
-| **400** | Bad Request           | Datos inválidos, valores negativos |
-| **404** | Not Found             | Entidad no encontrada              |
-| **409** | Conflict              | DNI duplicado, recurso ya existe   |
-| **500** | Internal Server Error | Error del sistema                  |
+| Code    | Description           | Example                        |
+| ------- | --------------------- | ------------------------------ |
+| **200** | OK                    | Successful operation           |
+| **201** | Created               | Entity created correctly       |
+| **400** | Bad Request           | Invalid data, negative values  |
+| **404** | Not Found             | Entity not found               |
+| **409** | Conflict              | Duplicate DNI, resource exists |
+| **500** | Internal Server Error | System error                   |
 
-## ‍💻 **Desarrollado por**
+## ‍💻 **Developed by**
 
 **Camila V. Heuer**
 
@@ -513,12 +532,12 @@ El sistema implementa un manejo robusto de errores con códigos HTTP apropiados:
 
 ---
 
-## 🎓 **Contexto Académico**
+## 🎓 **Academic Context**
 
-Este proyecto fue desarrollado como **Proyecto Integrador** para el curso:
+This project was developed as an **Integrative Project** for the course:
 
-- **Curso**: Desarrollo de APIs con Spring Boot
-- **Academia**: TodoCode Academy
-- **Año**: 2025
+- **Course**: API Development with Spring Boot
+- **Academy**: TodoCode Academy
+- **Year**: 2025
 
-**Nota**: Aunque la consigna fue proporcionada por la academia, toda la implementación, diseño arquitectónico y decisiones técnicas fueron desarrolladas de manera completamente independiente.
+**Note**: Although the assignment was provided by the academy, all implementation, architectural design and technical decisions were developed completely independently.
