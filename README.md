@@ -2,14 +2,21 @@
 
 **Bazar Management System developed with Spring Boot**
 
-> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional competencies in backend development with Java.
+> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional competencies
+
+**Prerequisites**
+
+- ☕ Java 17 or higher
+- 📦 Maven 3.6+
+- 🗄️ H2 Database (included) for immediate testing. ├── 📊 UML Bazar-Management API.png # Complete system UML diagram
+  ├── 📄 HELP.md # Spring Boot help guidedy to run.
+- 🗄️ MySQL + XAMPP (optional, for local development)s in backend development with Java.
 
 ---
 
 ## 📋 **Project Description**
 
-**Bazar Management** is a comple├── 📊 UML Bazar-Management API.png  # Complete system UML diagram
-├── 📄 HELP.md                       # Spring Boot help guideREST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
+**Bazar Management** is a complete REST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
 
 ### 🎯 **Purpose**
 
@@ -258,7 +265,7 @@ Response: 201 Created
 
 ![POST Sales Example](./postman/POST-Sales-Example.png)
 
-*Complete example showing the POST /api/sales request and **201 Created** response in Postman interface, demonstrating the multi-product sale creation with automatic calculations and proper HTTP status codes.*
+_Complete example showing the POST /api/sales request and **201 Created** response in Postman interface, demonstrating the multi-product sale creation with automatic calculations and proper HTTP status codes._
 
 > ✨ **Note**: For more detailed examples, check the **Postman collection** included in the project.
 
