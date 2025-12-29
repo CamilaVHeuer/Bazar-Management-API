@@ -52,7 +52,7 @@ Este proyecto forma parte de mi **portfolio profesional** como desarrollador bac
 
 El proyecto incluye un **diagrama UML completo** que muestra las relaciones entre entidades, DTOs y la arquitectura del sistema.
 
-📄 **Archivo**: [`UML-Diagram.png`](./UML-Diagram.png)
+📄 **Archivo**: [`UML Bazar-Management API.png`](./UML%20Bazar-Management%20API.png)
 
 **Modelo de Datos - 4 entidades principales:**
 
@@ -403,7 +403,7 @@ El proyecto incluye una colección de Postman con:
 ```
 Bazar-Management/
 ├── 📄 README.md                     # Documentación principal del proyecto
-├── 📊 UML-Diagram.png               # Diagrama UML completo del sistema
+├── 📊 UML Bazar-Management API.png  # Diagrama UML completo del sistema
 ├── 📄 HELP.md                       # Guía de ayuda de Spring Boot
 ├── 📄 pom.xml                       # Configuración Maven y dependencias
 ├── 📁 postman/                      # Colección de Postman para testing
