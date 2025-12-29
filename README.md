@@ -529,9 +529,9 @@ The system implements robust error handling with appropriate HTTP codes:
 
 **Camila V. Heuer**
 
-- 📧 Email: [camila.vheuer@email.com]
-- 💼 LinkedIn: [linkedin.com/in/camila-vheuer]
-- 🐙 GitHub: [github.com/CamilaVHeuer]
+- 📧 Email: [cbvillalbaheuer@gmail.com]
+- 💼 LinkedIn: [linkedin.com/in/camilavheuer](https://www.linkedin.com/in/camilavheuer/)
+- 🐙 GitHub: [github.com/CamilaVHeuer](https://github.com/CamilaVHeuer)
 
 ---
 
