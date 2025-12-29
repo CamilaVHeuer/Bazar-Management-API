@@ -2,18 +2,14 @@
 
 **Bazar Management System developed with Spring Boot**
 
-> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional compe### **Prerequisites**
-
-- ☕ Java 17 or higher
-- 📦 Maven 3.6+
-- 🗄️ H2 Database (included) for immediate testing. Ready to run.
-- 🗄️ MySQL + XAMPP (optional, for local development)s in backend development with Java.
+> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional competencies in backend development with Java.
 
 ---
 
 ## 📋 **Project Description**
 
-**Bazar Management** is a complete REST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
+**Bazar Management** is a comple├── 📊 UML Bazar-Management API.png  # Complete system UML diagram
+├── 📄 HELP.md                       # Spring Boot help guideREST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
 
 ### 🎯 **Purpose**
 
@@ -258,6 +254,12 @@ Response: 201 Created
 }
 ```
 
+### **📸 Visual Example - Postman Interface**
+
+![POST Sales Example](./postman/POST-Sales-Example.png)
+
+*Complete example showing the POST /api/sales request and **201 Created** response in Postman interface, demonstrating the multi-product sale creation with automatic calculations and proper HTTP status codes.*
+
 > ✨ **Note**: For more detailed examples, check the **Postman collection** included in the project.
 
 ### **Special Queries**
@@ -423,10 +425,12 @@ The project includes a Postman collection with:
 Bazar-Management/
 ├── 📄 README.md                     # Main project documentation
 ├── 📊 UML Bazar-Management API.png  # Complete system UML diagram
-├── 📄 HELP.md                       # Spring Boot help guide
+├── � POST-Sales-Example.png        # Postman POST /api/sales example
+├── �📄 HELP.md                       # Spring Boot help guide
 ├── 📄 pom.xml                       # Maven configuration and dependencies
 ├── 📁 postman/                      # Postman collection for testing
-│   └── Bazar-Management-API.postman_collection.json
+│   ├── Bazar-Management-API.postman_collection.json
+│   └── POST-Sales-Example.png       # Visual example of POST /api/sales
 ├── 📁 src/main/java/com/camicompany/BazarManagement/
 │   ├── 📁 controller/               # REST endpoints
 │   │   ├── CustomerController.java  # Customer endpoints
