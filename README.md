@@ -67,6 +67,8 @@ return ResponseEntity.ok(productDTO);                           // 200 OK
 return ResponseEntity.created(location).body(productDTO);       // 201 Created
 return ResponseEntity.notFound().build();                       // 404 Not Found
 return ResponseEntity.badRequest().body("Error message");       // 400 Bad Request
+return ResponseEntity.status(HttpStatus.CONFLICT)
+    .body("DNI already exists");                                // 409 Conflict
 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
     .body("Internal error");                                    // 500 Internal Server Error
 ```
@@ -280,15 +282,30 @@ Response: 200 OK
 ### **🔒 Validaciones Robustas**
 
 ```java
-// Validación de campos obligatorios
+// Validación de campos obligatorios y datos nulos
 if (customerDTO.getFirstName() == null || customerDTO.getFirstName().trim().isEmpty()) {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "First name is required");
+}
+
+// Validación de unicidad de datos críticos
+if (customerRepo.existsByDni(customerDTO.getDni())) {
+    throw new ResponseStatusException(HttpStatus.CONFLICT, "DNI already exists");
+}
+
+// Validación de valores de negocio
+if (productDTO.getUnitPrice() < 0) {
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unit price cannot be negative");
 }
 
 // Verificación de stock antes de venta
 if (prod.getStock() < item.getQuantity()) {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
         "Insufficient stock for product: " + prod.getName());
+}
+
+// Validación de fechas de negocio
+if (saleDTO.getDateSale().isAfter(LocalDate.now())) {
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale date cannot be in the future");
 }
 ```
 
@@ -472,13 +489,14 @@ El sistema implementa un manejo robusto de errores con códigos HTTP apropiados:
 
 ### **Códigos de Estado Implementados**
 
-| Código  | Descripción           | Ejemplo                             |
-| ------- | --------------------- | ----------------------------------- |
-| **200** | OK                    | Operación exitosa                   |
-| **201** | Created               | Entidad creada correctamente        |
-| **400** | Bad Request           | Datos inválidos, stock insuficiente |
-| **404** | Not Found             | Entidad no encontrada               |
-| **500** | Internal Server Error | Error del sistema                   |
+| Código  | Descripción           | Ejemplo                            |
+| ------- | --------------------- | ---------------------------------- |
+| **200** | OK                    | Operación exitosa                  |
+| **201** | Created               | Entidad creada correctamente       |
+| **400** | Bad Request           | Datos inválidos, valores negativos |
+| **404** | Not Found             | Entidad no encontrada              |
+| **409** | Conflict              | DNI duplicado, recurso ya existe   |
+| **500** | Internal Server Error | Error del sistema                  |
 
 ## 📊 **Diagrama UML** _(Próximamente)_
 

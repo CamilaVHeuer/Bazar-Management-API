@@ -22,10 +22,28 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
+        if (productDTO == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product data is required");
+        }
         if(productDTO.getName() == null || productDTO.getName().trim().isEmpty()){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Product name is required");
+        }
+        if (productDTO.getBrand() == null || productDTO.getBrand().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product brand is required");
+        }
+        if (productDTO.getUnitPrice() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unit price is required");
+        }
+        if (productDTO.getStock() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock is required");
+        }
+        if (productDTO.getUnitPrice() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unit price cannot be negative");
+        }
+        if (productDTO.getStock() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock cannot be negative");
         }
         Product product = new Product();
         product.setName(productDTO.getName());
@@ -46,6 +64,9 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductDTO updateProduct(Long id, ProductDTO productDetailsDTO) {
+        if (productDetailsDTO == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product data is required");
+        }
         Product product = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
@@ -58,9 +79,15 @@ public class ProductService implements IProductService {
             product.setBrand(productDetailsDTO.getBrand());
         }
         if (productDetailsDTO.getUnitPrice() != null) {
+            if (productDetailsDTO.getUnitPrice() < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unit price cannot be negative");
+            }
             product.setUnitPrice(productDetailsDTO.getUnitPrice());
         }
         if (productDetailsDTO.getStock() != null) {
+            if (productDetailsDTO.getStock() < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock cannot be negative");
+            }
             product.setStock(productDetailsDTO.getStock());
         }
 

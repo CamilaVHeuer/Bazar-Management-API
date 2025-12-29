@@ -49,6 +49,9 @@ public class SaleService implements ISaleService {
         if(saleDTO.getCustomerId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer ID is required");
         }
+        if(saleDTO.getDateSale() != null && saleDTO.getDateSale().isAfter(LocalDate.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale date cannot be in the future");
+        }
         //Find the real customer in the database
         Customer custo = custoRepo.findById(saleDTO.getCustomerId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
@@ -61,6 +64,12 @@ public class SaleService implements ISaleService {
         List<SalesDetail> cleanItems = new ArrayList<>();
         //Process each item
         for (SalesDetailDTO item : saleDTO.getItems()) {
+            if (item.getProductId() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product ID is required for each item");
+            }
+            if (item.getQuantity() == null || item.getQuantity() <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity must be greater than 0");
+            }
             //Find the real product in the database
             Product prod = prodRepo.findById(item.getProductId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + item.getProductId()));
@@ -110,7 +119,11 @@ public class SaleService implements ISaleService {
             existingSale.setCustomer(custo);
         }
 
-        if(newSaleDataDTO.getDateSale()!=null){
+        if(newSaleDataDTO.getDateSale() != null) {
+
+            if(newSaleDataDTO.getDateSale().isAfter(LocalDate.now())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale date cannot be in the future");
+            }
             existingSale.setDateSale(newSaleDataDTO.getDateSale());
         }
         return Mapper.toSaleDTO(saleRepo.save(existingSale));

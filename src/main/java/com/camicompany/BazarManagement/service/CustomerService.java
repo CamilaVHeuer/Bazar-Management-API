@@ -23,6 +23,9 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        if(customerDTO == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer data is required");
+        }
 
         if(customerDTO.getFirstName()==null || customerDTO.getFirstName().trim().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "First name is required");
@@ -32,6 +35,9 @@ public class CustomerService implements ICustomerService {
         }
         if(customerDTO.getDni()==null || customerDTO.getDni().trim().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "DNI is required");
+        }
+        if(customerRepo.existsByDni(customerDTO.getDni())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "DNI already exists");
         }
         Customer cust = new Customer();
         cust.setFirstName(customerDTO.getFirstName());
@@ -52,6 +58,9 @@ public class CustomerService implements ICustomerService {
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDetailsDTO) {
         Customer cust = customerRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if (customerDetailsDTO == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer data is required");
+        }
 
         if (customerDetailsDTO.getFirstName() != null && !customerDetailsDTO.getFirstName().trim().isEmpty()) {
             cust.setFirstName(customerDetailsDTO.getFirstName());
@@ -60,7 +69,12 @@ public class CustomerService implements ICustomerService {
             cust.setLastName(customerDetailsDTO.getLastName());
         }
         if (customerDetailsDTO.getDni() != null && !customerDetailsDTO.getDni().trim().isEmpty()) {
-            cust.setDni(customerDetailsDTO.getDni());
+            // Verify DNI uniqueness
+            Customer existingCustomer = customerRepo.findByDni(customerDetailsDTO.getDni());
+            if (existingCustomer != null && !existingCustomer.getCustomerId().equals(id)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "DNI already exists");
+            }
+            cust.setDni(customerDetailsDTO.getDni().trim());
         }
 
         return Mapper.toCustomerDTO(customerRepo.save(cust));
