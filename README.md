@@ -22,6 +22,56 @@ Este proyecto forma parte de mi **portfolio profesional** como desarrollador bac
 
 ---
 
+## 🚀 **Funcionalidades Principales**
+
+### **👥 Gestión de Clientes**
+
+- ✅ CRUD completo de clientes
+- ✅ Validaciones de campos obligatorios
+- ✅ Validación de DNI único (con método `existsByDni()`)
+- ✅ Búsqueda por ID con manejo de excepciones
+- ✅ Actualizaciones parciales inteligentes
+
+### **📦 Gestión de Productos**
+
+- ✅ CRUD completo de productos
+- ✅ Control de inventario (stock)
+- ✅ Consulta de productos con stock bajo (con método `findByStockLessThanEqual()`)
+- ✅ Actualizaciones parciales que preservan datos existentes
+
+### **🛒 Gestión de Ventas**
+
+- ✅ Creación de ventas multi-producto
+- ✅ Validación automática de stock disponible
+- ✅ Actualización automática de inventario
+- ✅ Cálculo automático de subtotales y total
+- ✅ Consultas avanzadas (venta mayor, resumen por fecha)
+- ✅ Obtener productos de una venta específica
+
+### **📊 Diagrama UML del Sistema**
+
+El proyecto incluye un **diagrama UML completo** que muestra las relaciones entre entidades, DTOs y la arquitectura del sistema.
+
+📄 **Archivo**: [`UML-Diagram.png`](./UML-Diagram.png)
+
+**Modelo de Datos - 4 entidades principales:**
+
+- **👤 Customer**: Gestión de clientes (customerId, firstName, lastName, dni)
+- **📦 Product**: Gestión de productos (productId, name, brand, unitPrice, stock)
+- **🛒 Sale**: Gestión de ventas (saleId, dateSale, customerId, total)
+- **🧾 SalesDetail**: Detalles de venta (productId, quantity, unitPrice, subTotal)
+
+**Relaciones Principales:**
+
+- **Customer** `makes` **Sale** (1:N)
+- **Product** `appears in` **SalesDetail** (1:N)
+- **Sale** `contains` **SalesDetail** (1:N)
+- **Mapeo DTO ↔ Entity** para todas las capas
+
+> El diagrama ilustra la arquitectura completa incluyendo entidades JPA, DTOs, y las relaciones entre todos los componentes del sistema.
+
+---
+
 ## 🏗️ **Arquitectura y Patrones Implementados**
 
 ### **Arquitectura MVC - Capas**
@@ -75,34 +125,7 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
 ---
 
-## 🚀 **Funcionalidades Principales**
-
-### **👥 Gestión de Clientes**
-
-- ✅ CRUD completo de clientes
-- ✅ Validaciones de campos obligatorios
-- ✅ Búsqueda por ID con manejo de excepciones
-- ✅ Actualizaciones parciales inteligentes
-
-### **📦 Gestión de Productos**
-
-- ✅ CRUD completo de productos
-- ✅ Control de inventario (stock)
-- ✅ Consulta de productos con stock bajo (≤ 5 unidades)
-- ✅ Actualizaciones parciales que preservan datos existentes
-
-### **🛒 Gestión de Ventas**
-
-- ✅ Creación de ventas multi-producto
-- ✅ Validación automática de stock disponible
-- ✅ Actualización automática de inventario
-- ✅ Cálculo automático de subtotales y total
-- ✅ Consultas avanzadas (venta mayor, resumen por fecha)
-- ✅ Obtener productos de una venta específica
-
----
-
-## 🛠️ **Stack Tecnológico**
+## ️ **Stack Tecnológico**
 
 | Tecnología          | Versión | Propósito                          |
 | ------------------- | ------- | ---------------------------------- |
@@ -117,31 +140,7 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
 ---
 
-## 🗄️ **Modelo de Datos**
-
-### **Entidades Principales**
-
-```java
-👤 Customer               📦 Product               🛒 Sale
-├── customerId (PK)       ├── productId (PK)       ├── saleId (PK)
-├── firstName             ├── name                 ├── dateSale
-├── lastName              ├── brand                ├── customerId (FK)
-└── dni                   ├── unitPrice            ├── total
-                          └── stock                └── items[]
-
-                                                   🧾 SalesDetail
-                                                   ├── saleDetailId (PK)
-                                                   ├── saleId (FK)
-                                                   ├── productId (FK)
-                                                   ├── productName
-                                                   ├── quantity
-                                                   ├── unitPrice
-                                                   └── subTotal
-```
-
----
-
-## 📡 **Endpoints de la API**
+## **Endpoints de la API**
 
 **Base URL**: `http://localhost:8080/api`
 
@@ -174,9 +173,9 @@ POST   /sales               # Crear nueva venta
 GET    /sales/{id}          # Obtener venta por ID
 PUT    /sales/{id}          # Actualizar venta (solo cliente y fecha)
 DELETE /sales/{id}          # Eliminar venta
-GET    /sales/{id}/products # Productos de una venta específica
+GET    /sales/products/{id} # Productos de una venta específica
 GET    /sales/date/{date}   # Resumen de ventas por fecha
-GET    /sales/max-amount    # Venta con mayor monto
+GET    /sales/greatest-total-amount    # Venta con mayor monto
 ```
 
 ---
@@ -281,33 +280,22 @@ Response: 200 OK
 
 ### **🔒 Validaciones Robustas**
 
-```java
-// Validación de campos obligatorios y datos nulos
-if (customerDTO.getFirstName() == null || customerDTO.getFirstName().trim().isEmpty()) {
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "First name is required");
-}
+El sistema implementa validaciones exhaustivas en todas las capas:
 
-// Validación de unicidad de datos críticos
-if (customerRepo.existsByDni(customerDTO.getDni())) {
-    throw new ResponseStatusException(HttpStatus.CONFLICT, "DNI already exists");
-}
+- ✅ **Campos obligatorios**: Verificación de datos nulos y strings vacíos
+- ✅ **Unicidad de datos**: Prevención de DNI duplicados y recursos existentes
+- ✅ **Reglas de negocio**: Validación de valores negativos, stock insuficiente
+- ✅ **Integridad temporal**: Verificación de fechas futuras y coherencia de datos
+- ✅ **Códigos HTTP apropiados**: 400 Bad Request, 409 Conflict, 404 Not Found
 
-// Validación de valores de negocio
-if (productDTO.getUnitPrice() < 0) {
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unit price cannot be negative");
-}
+### **🗃️ Integridad de Datos y Cascade**
 
-// Verificación de stock antes de venta
-if (prod.getStock() < item.getQuantity()) {
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-        "Insufficient stock for product: " + prod.getName());
-}
+El sistema implementa **operaciones en cascada** para mantener la integridad referencial:
 
-// Validación de fechas de negocio
-if (saleDTO.getDateSale().isAfter(LocalDate.now())) {
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale date cannot be in the future");
-}
-```
+- ✅ **CascadeType.ALL**: Las operaciones de venta afectan automáticamente a sus detalles
+- ✅ **Prevención de registros huérfanos**: Al eliminar una venta, se eliminan todos los SalesDetail asociados
+- ✅ **Integridad referencial**: Garantiza consistencia entre entidades relacionadas
+- ✅ **Transacciones automáticas**: Operaciones atómicas para mantener la coherencia de datos
 
 ### **🛡️ Manejo Profesional de Excepciones**
 
@@ -395,7 +383,7 @@ mvn spring-boot:run
 
 El proyecto incluye una colección de Postman con:
 
-- ✅ Todos los endpoints organizados por módulos (Customers, Products, Sales)
+- ✅ Todos los endpoints para Customers, Products y Sales
 - ✅ Ejemplos de requests con datos de prueba
 - ✅ Requests para todos los métodos HTTP (GET, POST, PUT, DELETE)
 
@@ -410,37 +398,53 @@ El proyecto incluye una colección de Postman con:
 
 ## 🔧 **Estructura del Proyecto**
 
+### **Estructura General**
+
 ```
-src/main/java/com/camicompany/BazarManagement/
-├── 📁 controller/
-│   ├── CustomerController.java      # REST endpoints para clientes
-│   ├── ProductController.java       # REST endpoints para productos
-│   └── SaleController.java          # REST endpoints para ventas
-├── 📁 dto/
-│   ├── CustomerDTO.java             # DTO para transferencia de datos de cliente
-│   ├── ProductDTO.java              # DTO para transferencia de datos de producto
-│   ├── SaleDTO.java                 # DTO para transferencia de datos de venta
-│   ├── SalesDetailDTO.java          # DTO para detalles de venta
-│   └── SalesSummaryDTO.java         # DTO para resumen de ventas
-├── 📁 mapper/
-│   └── Mapper.java                  # Conversiones entre entidades y DTOs
-├── 📁 model/
-│   ├── Customer.java                # Entidad JPA de cliente
-│   ├── Product.java                 # Entidad JPA de producto
-│   ├── Sale.java                    # Entidad JPA de venta
-│   └── SalesDetail.java             # Entidad JPA de detalle de venta
-├── 📁 repository/
-│   ├── ICustomerRepository.java     # Repositorio de clientes
-│   ├── IProductRepository.java      # Repositorio de productos
-│   └── ISaleRepository.java         # Repositorio de ventas
-├── 📁 service/
-│   ├── ICustomerService.java        # Interfaz de servicio de cliente
-│   ├── CustomerService.java         # Implementación de lógica de negocio de cliente
-│   ├── IProductService.java         # Interfaz de servicio de producto
-│   ├── ProductService.java          # Implementación de lógica de negocio de producto
-│   ├── ISaleService.java            # Interfaz de servicio de venta
-│   └── SaleService.java             # Implementación de lógica de negocio de venta
-└── BazarManagementApplication.java  # Clase principal Spring Boot
+Bazar-Management/
+├── 📄 README.md                     # Documentación principal del proyecto
+├── 📊 UML-Diagram.png               # Diagrama UML completo del sistema
+├── 📄 HELP.md                       # Guía de ayuda de Spring Boot
+├── 📄 pom.xml                       # Configuración Maven y dependencias
+├── 📁 postman/                      # Colección de Postman para testing
+│   └── Bazar-Management-API.postman_collection.json
+├── 📁 src/main/java/com/camicompany/BazarManagement/
+│   ├── 📁 controller/               # REST endpoints
+│   │   ├── CustomerController.java  # Endpoints para clientes
+│   │   ├── ProductController.java   # Endpoints para productos
+│   │   └── SaleController.java      # Endpoints para ventas
+│   ├── 📁 dto/                      # Data Transfer Objects
+│   │   ├── CustomerDTO.java         # DTO de cliente
+│   │   ├── ProductDTO.java          # DTO de producto
+│   │   ├── SaleDTO.java             # DTO de venta
+│   │   ├── SalesDetailDTO.java      # DTO de detalle de venta
+│   │   └── SalesSummaryDTO.java     # DTO de resumen de ventas
+│   ├── 📁 mapper/
+│   │   └── Mapper.java              # Conversiones Entity ↔ DTO
+│   ├── 📁 model/                    # Entidades JPA
+│   │   ├── Customer.java            # Entidad de cliente
+│   │   ├── Product.java             # Entidad de producto
+│   │   ├── Sale.java                # Entidad de venta
+│   │   └── SalesDetail.java         # Entidad de detalle de venta
+│   ├── 📁 repository/               # Capa de acceso a datos
+│   │   ├── ICustomerRepository.java # Repositorio de clientes
+│   │   ├── IProductRepository.java  # Repositorio de productos
+│   │   └── ISaleRepository.java     # Repositorio de ventas
+│   ├── 📁 service/                  # Capa de lógica de negocio
+│   │   ├── ICustomerService.java    # Interfaz servicio cliente
+│   │   ├── CustomerService.java     # Implementación servicio cliente
+│   │   ├── IProductService.java     # Interfaz servicio producto
+│   │   ├── ProductService.java      # Implementación servicio producto
+│   │   ├── ISaleService.java        # Interfaz servicio venta
+│   │   └── SaleService.java         # Implementación servicio venta
+│   └── BazarManagementApplication.java # Clase principal Spring Boot
+├── 📁 src/main/resources/
+│   ├── application.properties       # Configuración de la aplicación
+│   ├── 📁 static/                   # Recursos estáticos
+│   └── 📁 templates/                # Plantillas (si las hubiera)
+└── 📁 src/test/java/               # Tests unitarios
+    └── com/camicompany/BazarManagement/
+        └── BazarManagementApplicationTests.java
 ```
 
 ## 🎯 **Competencias Técnicas Demostradas**
@@ -471,6 +475,7 @@ src/main/java/com/camicompany/BazarManagement/
 - ✅ Diseño de esquemas relacionales
 - ✅ Implementación de relaciones 1:N
 - ✅ Consultas derivadas de JPA
+- ✅ Métodos personalizados en repositorios (`existsByDni`, `findByStockLessThanEqual`)
 - ✅ Transacciones automáticas
 
 ### **Buenas Prácticas**
@@ -498,18 +503,7 @@ El sistema implementa un manejo robusto de errores con códigos HTTP apropiados:
 | **409** | Conflict              | DNI duplicado, recurso ya existe   |
 | **500** | Internal Server Error | Error del sistema                  |
 
-## 📊 **Diagrama UML** _(Próximamente)_
-
-Se incluirá un diagrama UML completo mostrando:
-
-- Entidades y sus relaciones
-- Métodos principales de cada clase
-- Dependencias entre capas
-- Flujo de datos en el sistema
-
----
-
-## 👨‍💻 **Desarrollado por**
+## ‍💻 **Desarrollado por**
 
 **Camila V. Heuer**
 
