@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"firstName\": \"Alegra\",\n\"lastName\": \"Villaz\",\n\"dni\": \"127896\"\n}",
+					"raw": "{\"firstName\": \"Alegra\",\n\"lastName\": \"Villaz\",\n\"dni\": 127896\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,7 +81,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": " { \"firstName\": \"Marcia\",\n    \"lastName\": \"Baez\",\n     \"dni\": 123975\n    }",
+					"raw": " { \"firstName\": \"Marcia\",\n    \"lastName\": \"Baez\",\n     \"dni\": 123456\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -205,7 +205,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{   \"name\": \"TV\",\n    \"brand\": \"Samsung\",\n    \"unitPrice\": 8250000.0,\n    \"stock\": 12\n    \n    \n}",
+					"raw": "{   \"name\": \"plates\",\n    \"brand\": \"China\",\n    \"unitPrice\": 2000.0,\n    \"stock\": 25\n    \n    \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -295,7 +295,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"dateSale\": \"2025-12-12\",\n  \"customerId\": 6,\n  \"items\": [\n    {\n      \"quantity\": 2,\n      \"productId\":7\n    },\n    {\n      \"quantity\": 1,\n      \"productId\":5\n    \n    }\n  ]\n}\n",
+					"raw": "{\n  \"dateSale\": \"2025-11-31\",\n  \"customerId\": 6,\n  \"items\": [\n    {\n      \"quantity\": 2,\n      \"productId\":7\n    },\n    {\n      \"quantity\": 1,\n      \"productId\":5\n    \n    }\n  ]\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
