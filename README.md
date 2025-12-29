@@ -2,15 +2,7 @@
 
 **Bazar Management System developed with Spring Boot**
 
-> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional competencies
-
-**Prerequisites**
-
-- ☕ Java 17 or higher
-- 📦 Maven 3.6+
-- 🗄️ H2 Database (included) for immediate testing. ├── 📊 UML Bazar-Management API.png # Complete system UML diagram
-  ├── 📄 HELP.md # Spring Boot help guidedy to run.
-- 🗄️ MySQL + XAMPP (optional, for local development)s in backend development with Java.
+> **Integrative Project** developed as part of the "API Development with Spring Boot" course from **TodoCode Academy**. The implementation and architectural design are completely original, oriented to demonstrate professional competencies in backend development with Java.
 
 ---
 
@@ -326,12 +318,12 @@ Customer customer = customerRepo.findById(id)
 
 ## 🚀 **Installation and Execution**
 
-### **Prerrequisitos**
+### **Prerequisites**
 
-- ☕ Java 17 o superior
+- ☕ Java 17 or higher
 - 📦 Maven 3.6+
-- � Usa H2 Database (incluida) para pruebas inmediatas. Listo para ejecutar.
-- �🗄️ MySQL + XAMPP (opcional, para desarrollo local)
+- 🗄️ H2 Database (included) for immediate testing. Ready to run.
+- 🗄️ MySQL + XAMPP (optional, for local development)
 
 ### **Configuration**
 
