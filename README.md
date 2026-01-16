@@ -6,6 +6,23 @@
 
 ---
 
+## 📚 **API Documentation with Swagger / OpenAPI**
+
+The API is fully documented with **Swagger UI (OpenAPI 3)**. All endpoints, models, and responses are described and tested using annotations in the controllers (`@Tag`, `@Operation`, `@ApiResponse`). You can access the interactive documentation at:
+
+-  `http://localhost:8080/swagger-ui/index.html`
+
+Includes:
+- General API overview
+- Documentation for all endpoints (Customers, Products, Sales)
+- Data models and response examples
+- Status codes and possible errors
+- Interactive testing from the browser
+
+> **Tip:** You can test any endpoint directly from the Swagger interface, view request/response examples, and explore data models.
+
+---
+
 ## 📋 **Project Description**
 
 **Bazar Management** is a complete REST API for bazar management, allowing administration of products, customers and sales. The system implements complete CRUD operations and advanced business functionalities, following Spring Boot development best practices.
