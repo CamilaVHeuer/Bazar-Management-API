@@ -47,6 +47,10 @@ This project is part of my **professional portfolio** as a Java backend develope
 - ✅ Automatic calculation of subtotals and total
 - ✅ Advanced queries (highest sale, summary by date)
 - ✅ Get products from a specific sale
+- ✅ **Sale status management**: Each sale has a status (**CREATED** or **CANCELLED**)
+- ✅ **Cancel sale**: Cancelling a sale restores the stock of all involved products
+- ✅ **No delete**: Cancelled sales cannot be deleted; there is no DELETE endpoint for sales
+- ✅ **PUT endpoint to cancel**: Sales are cancelled via a dedicated PUT endpoint (not deleted)
 
 ### **📊 System UML Diagram**
 
@@ -172,11 +176,13 @@ GET    /sales               # List all sales
 POST   /sales               # Create new sale
 GET    /sales/{id}          # Get sale by ID
 PUT    /sales/{id}          # Update sale (customer and date only)
-DELETE /sales/{id}          # Delete sale
+PUT    /sales/cancel/{id}   # Cancel sale (restores stock, sets status to CANCELLED)
 GET    /sales/products/{id} # Products from a specific sale
 GET    /sales/date/{date}   # Sales summary by date
 GET    /sales/greatest-total-amount    # Sale with highest amount
 ```
+
+> **Note:** There is **no DELETE endpoint** for sales. Once a sale is cancelled, its stock is restored and it cannot be deleted or cancelled again.
 
 ---
 
@@ -232,6 +238,7 @@ Response: 201 Created
     "dateSale": "2025-12-27",
     "customerId": 1,
     "total": 59.00,
+    "status": "CREATED",
     "items": [
         {
             "saleDetailId": 1,

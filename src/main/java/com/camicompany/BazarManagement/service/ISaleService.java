@@ -1,9 +1,6 @@
 package com.camicompany.BazarManagement.service;
 
-import com.camicompany.BazarManagement.dto.ProductDTO;
-import com.camicompany.BazarManagement.dto.SaleDTO;
-import com.camicompany.BazarManagement.dto.SalesDetailDTO;
-import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
+import com.camicompany.BazarManagement.dto.*;
 import com.camicompany.BazarManagement.model.Product;
 import com.camicompany.BazarManagement.model.Sale;
 
@@ -18,9 +15,9 @@ public interface ISaleService {
     //READ BY ID
     public SaleDTO getSaleById(Long id);
     //UPDATE
-    public SaleDTO updateSale(Long id, SaleDTO saleDetailsDTO);
-    //DELETE BY ID
-    public void deleteSale(Long id);
+    public SaleDTO updateSale(Long id, SaleDateDTO saleDateDTO);
+    //cancel BY ID
+    public SaleDTO cancelSale(Long id);
 
     //PRODUCT LIST BY SALE ID
     public List<ProductDTO> getProductsBySaleId(Long saleId);

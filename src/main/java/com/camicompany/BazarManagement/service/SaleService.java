@@ -1,14 +1,8 @@
 package com.camicompany.BazarManagement.service;
 
-import com.camicompany.BazarManagement.dto.ProductDTO;
-import com.camicompany.BazarManagement.dto.SaleDTO;
-import com.camicompany.BazarManagement.dto.SalesDetailDTO;
-import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
+import com.camicompany.BazarManagement.dto.*;
 import com.camicompany.BazarManagement.mapper.Mapper;
-import com.camicompany.BazarManagement.model.Customer;
-import com.camicompany.BazarManagement.model.Product;
-import com.camicompany.BazarManagement.model.Sale;
-import com.camicompany.BazarManagement.model.SalesDetail;
+import com.camicompany.BazarManagement.model.*;
 import com.camicompany.BazarManagement.repository.ICustomerRepository;
 import com.camicompany.BazarManagement.repository.IProductRepository;
 import com.camicompany.BazarManagement.repository.ISaleRepository;
@@ -100,6 +94,7 @@ public class SaleService implements ISaleService {
         // Link items list to sale
         newSale.setItems(cleanItems);
         newSale.setTotal(total);
+        newSale.setStatus(SaleStatus.CREATED);
 
         return Mapper.toSaleDTO(saleRepo.save(newSale));
     }
@@ -110,33 +105,35 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public SaleDTO updateSale(Long id, SaleDTO newSaleDataDTO) {
+    public SaleDTO updateSale(Long id, SaleDateDTO newSaleDateDTO) {
         Sale existingSale = saleRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found"));
-        //update only fields that can be updated
-        if(newSaleDataDTO.getCustomerId()!=null){
-            Customer custo = custoRepo.findById(newSaleDataDTO.getCustomerId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
-            existingSale.setCustomer(custo);
-        }
 
-        if(newSaleDataDTO.getDateSale() != null) {
+        if(newSaleDateDTO.getDate() != null) {
 
-            if(newSaleDataDTO.getDateSale().isAfter(LocalDate.now())) {
+            if(newSaleDateDTO.getDate().isAfter(LocalDate.now())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sale date cannot be in the future");
             }
-            existingSale.setDateSale(newSaleDataDTO.getDateSale());
+            existingSale.setDateSale(newSaleDateDTO.getDate());
         }
         return Mapper.toSaleDTO(saleRepo.save(existingSale));
     }
 
     @Override
-    public void deleteSale(Long id) {
-        if(!saleRepo.existsById(id))  {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found");
-        };
-        saleRepo.deleteById(id);
+    public SaleDTO cancelSale(Long id) {
+       Sale sale = saleRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found"));
+        if (sale.getStatus() == SaleStatus.CANCELLED) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Sale is already cancelled");
+        }
+        for (SalesDetail item : sale.getItems()) {
+            Product prod = prodRepo.findById(item.getProduct().getProductId()).orElseThrow(()->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+            prod.setStock(prod.getStock() + item.getQuantity());
+            prodRepo.save(prod); }
 
+        sale.setStatus(SaleStatus.CANCELLED);
+       return Mapper.toSaleDTO(saleRepo.save(sale));
     }
+
 
     @Override
     public List<ProductDTO> getProductsBySaleId(Long saleId) {

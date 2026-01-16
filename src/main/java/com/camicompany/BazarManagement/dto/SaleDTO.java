@@ -1,5 +1,6 @@
 package com.camicompany.BazarManagement.dto;
 
+import com.camicompany.BazarManagement.model.SaleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class SaleDTO {
     private Long customerId;
     private List<SalesDetailDTO> items;
     private Double total;
+    private SaleStatus status;
 }

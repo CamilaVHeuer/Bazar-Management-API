@@ -8,498 +8,515 @@
 	},
 	"item": [
 		{
-			"name": "customers",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"firstName\": \"Alegra\",\n\"lastName\": \"Villaz\",\n\"dni\": 127896\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Products",
+			"item": [
+				{
+					"name": "products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Glas\",\n\"brand\": \"Luminarc\",\n\"unitPrice\": 1000.0,\n\"stock\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/customers",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"customers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all customers",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/customers",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"customers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get customer by Id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/customers/6",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"customers",
-						"6"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update Customer",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": " { \"firstName\": \"Marcia\",\n    \"lastName\": \"Baez\",\n     \"dni\": 123456\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/customers/6",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"customers",
-						"6"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete Customer",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/customers/7",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"customers",
-						"7"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "products",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"name\":\"Platos\",\n\"brand\": \"China\",\n\"unitPrice\": 3000,\n\"stock\": 15\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "update product by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"name\": \"plates\",\n    \"brand\": \"China\",\n    \"unitPrice\": 2000.0,\n    \"stock\": 25\n    \n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/products",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all products",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/products",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get product by id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/products/1",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"products",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update product by id",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{   \"name\": \"plates\",\n    \"brand\": \"China\",\n    \"unitPrice\": 2000.0,\n    \"stock\": 25\n    \n    \n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "delete product by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/products/3",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete product by id",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "low-stock products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/low-stock",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"low-stock"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/products/6",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products",
-						"6"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "low-stock products",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Customers",
+			"item": [
+				{
+					"name": "customers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"firstName\": \"Alegra\",\n\"lastName\": \"Villaz\",\n\"dni\": 127896\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/products/low-stock",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"products",
-						"low-stock"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "sales create",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"dateSale\": \"2025-11-31\",\n  \"customerId\": 6,\n  \"items\": [\n    {\n      \"quantity\": 2,\n      \"productId\":7\n    },\n    {\n      \"quantity\": 1,\n      \"productId\":5\n    \n    }\n  ]\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "get all customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/sales",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "sales delete by id",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/sales/delete/1",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"sales",
-						"delete",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all sales ",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/sales",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get sales by id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/sales/4",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales",
-						"4"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update Sale (fields: date and customer)",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customerId\": 6\n  }\n  \n\n\n",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get customer by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customers/6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"6"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/sales/7",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales",
-						"7"
-					]
+				{
+					"name": "update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"firstName\": \"Marcia\",\n    \"lastName\": \"Baez\",\n     \"dni\": 123456\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customers/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customers/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "get products by saleID",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Sales",
+			"item": [
+				{
+					"name": "sales create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dateSale\": \"2025-11-31\",\n  \"customerId\": 6,\n  \"items\": [\n    {\n      \"quantity\": 2,\n      \"productId\":7\n    },\n    {\n      \"quantity\": 1,\n      \"productId\":5\n    \n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sales",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/sales/products/3",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales",
-						"products",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get total amount and totalSales by date",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "cancel sale by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sales/cancel/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales",
+								"cancel",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/api/sales/date/2025-08-10",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"sales",
-						"date",
-						"2025-08-10"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get greatest total amount",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get all sales ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sales",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/sales/greatest-total-amount",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"sales",
-						"greatest-total-amount"
-					]
+				{
+					"name": "Get sales by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/sales/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Sale (fields: date)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"date\": \"2025-07-01\"\n  }\n  \n\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sales/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products by saleID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sales/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get total amount and totalSales by date",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/sales/date/2025-08-10",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales",
+								"date",
+								"2025-08-10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get greatest total amount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"dateSale\": \"2025-07-01\",\n  \"customer\": {\n    \"customerId\": 2\n  }\n  \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/sales/greatest-total-amount",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sales",
+								"greatest-total-amount"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

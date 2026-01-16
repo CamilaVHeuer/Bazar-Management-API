@@ -3,6 +3,7 @@ package com.camicompany.BazarManagement.controller;
 
 import com.camicompany.BazarManagement.dto.ProductDTO;
 import com.camicompany.BazarManagement.dto.SaleDTO;
+import com.camicompany.BazarManagement.dto.SaleDateDTO;
 import com.camicompany.BazarManagement.dto.SalesSummaryDTO;
 import com.camicompany.BazarManagement.service.ISaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,13 @@ public class SaleController {
     }
 
     @PutMapping ("/{id}")
-    public ResponseEntity<SaleDTO> updateSale(@PathVariable Long id, @RequestBody SaleDTO newSaleDataDTO) {
-        return ResponseEntity.ok(saleServ.updateSale(id, newSaleDataDTO));
+    public ResponseEntity<SaleDTO> updateSale(@PathVariable Long id, @RequestBody SaleDateDTO newSaleDateDTO) {
+        return ResponseEntity.ok(saleServ.updateSale(id, newSaleDateDTO));
     }
 
-    @DeleteMapping ("{id}")
-    public ResponseEntity<Void> deleteSale(@PathVariable Long id) {
-       saleServ.deleteSale(id);
-       return ResponseEntity.noContent().build();
+    @PutMapping ("/cancel/{id}")
+    public ResponseEntity<SaleDTO> cancelSale(@PathVariable Long id) {
+       return ResponseEntity.ok(saleServ.cancelSale(id));
     }
 
     @GetMapping ("/products/{saleId}")

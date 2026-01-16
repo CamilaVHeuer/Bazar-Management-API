@@ -27,5 +27,8 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SaleStatus status = SaleStatus.CREATED;
 
 }

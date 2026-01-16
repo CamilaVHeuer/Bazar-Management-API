@@ -77,6 +77,7 @@ public class Mapper {
         saleDTO.setCustomerId(sale.getCustomer().getCustomerId());
         saleDTO.setItems(itemsDTO);
         saleDTO.setTotal(sale.getTotal());
+        saleDTO.setStatus(sale.getStatus());
 
         return saleDTO;
     }
