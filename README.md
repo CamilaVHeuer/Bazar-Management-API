@@ -238,7 +238,6 @@ Response: 201 Created
     "dateSale": "2025-12-27",
     "customerId": 1,
     "total": 59.00,
-    "status": "CREATED",
     "items": [
         {
             "saleDetailId": 1,
@@ -256,7 +255,8 @@ Response: 201 Created
             "unitPrice": 25.00,
             "subTotal": 25.00
         }
-    ]
+    ],
+    "status": "CREATED"
 }
 ```
 
