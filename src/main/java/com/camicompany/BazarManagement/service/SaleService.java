@@ -49,6 +49,9 @@ public class SaleService implements ISaleService {
         //Find the real customer in the database
         Customer custo = custoRepo.findById(saleDTO.getCustomerId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if(custo.getStatus() != CustomerStatus.ACTIVE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer is not active");
+        }
         //Create a new "cleaned" sale
         Sale newSale = new Sale();
         newSale.setDateSale(saleDTO.getDateSale());
@@ -67,6 +70,9 @@ public class SaleService implements ISaleService {
             //Find the real product in the database
             Product prod = prodRepo.findById(item.getProductId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + item.getProductId()));
+            if(prod.getStatus()!= ProductStatus.ACTIVE){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product is not active: " + prod.getName());
+            }
             // Validate stock
             if (prod.getStock() < item.getQuantity()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock for product: " + prod.getName());

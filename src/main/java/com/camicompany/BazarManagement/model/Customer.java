@@ -22,4 +22,7 @@ public class Customer {
     private String dni;
     @OneToMany(mappedBy="customer")
     private List<Sale> saleList;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CustomerStatus status = CustomerStatus.ACTIVE;
 }

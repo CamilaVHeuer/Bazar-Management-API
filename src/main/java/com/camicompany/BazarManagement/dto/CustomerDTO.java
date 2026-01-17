@@ -1,5 +1,6 @@
 package com.camicompany.BazarManagement.dto;
 
+import com.camicompany.BazarManagement.model.CustomerStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +20,6 @@ public class CustomerDTO {
     private String lastName;
     @Schema(description = "DNI of the customer", example = "12345678A", requiredMode = Schema.RequiredMode.REQUIRED)
     private String dni;
+    @Schema(description = "Status of the customer", example = "ACTIVE", accessMode = Schema.AccessMode.READ_ONLY)
+    private CustomerStatus status;
 }

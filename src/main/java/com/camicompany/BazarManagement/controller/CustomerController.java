@@ -51,19 +51,37 @@ public class CustomerController {
     @ApiResponse(responseCode = "200", description = "Customer updated successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Customer not found")
+    @ApiResponse(responseCode = "409", description = "Duplicate DNI or Status no Active")
     @Operation(summary = "Update customer", description = "Updates customer data by ID and returns the updated DTO.")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO custoDetailsDTO) {
         return ResponseEntity.ok(custoServ.updateCustomer(id, custoDetailsDTO));
     }
 
-    @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204", description = "Customer deleted successfully")
+    @PutMapping("/inactivate/{id}")
+    @ApiResponse(responseCode = "200", description = "Customer inactive successfully")
     @ApiResponse(responseCode = "404", description = "Customer not found")
-    @Operation(summary = "Delete customer", description = "Deletes a customer by ID.")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    @ApiResponse(responseCode = "409", description = "Customer is already inactive")
+    @Operation(summary = "Inactive customer", description = "Inactives a customer by ID.")
+    public ResponseEntity<CustomerDTO> inactiveCustomer(@PathVariable Long id) {
+        return ResponseEntity.ok().body(custoServ.inactiveCustomer(id));
+    }
 
-        custoServ.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/suspend/{id}")
+    @ApiResponse(responseCode = "200", description = "Customer suspended successfully")
+    @ApiResponse(responseCode = "404", description = "Customer not found")
+    @ApiResponse(responseCode = "409", description = "Customer is already suspended")
+    @Operation(summary = "Suspend customer", description = "Suspends a customer by ID.")
+    public ResponseEntity<CustomerDTO> suspendCustomer(@PathVariable Long id) {
+        return ResponseEntity.ok().body(custoServ.suspendCustomer(id));
+    }
+
+    @PutMapping("/activate/{id}")
+    @ApiResponse(responseCode = "200", description = "Customer activated successfully")
+    @ApiResponse(responseCode = "404", description = "Customer not found")
+    @ApiResponse(responseCode = "409", description = "Customer is already active o suspended customer cannot be activated")
+    @Operation(summary = "Activate customer", description = "Activates a customer by ID.")
+    public ResponseEntity<CustomerDTO> activateCustomer(@PathVariable Long id) {
+        return ResponseEntity.ok().body(custoServ.activateCustomer(id));
     }
 
 }

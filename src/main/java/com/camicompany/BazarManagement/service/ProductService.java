@@ -3,6 +3,7 @@ package com.camicompany.BazarManagement.service;
 import com.camicompany.BazarManagement.dto.ProductDTO;
 import com.camicompany.BazarManagement.mapper.Mapper;
 import com.camicompany.BazarManagement.model.Product;
+import com.camicompany.BazarManagement.model.ProductStatus;
 import com.camicompany.BazarManagement.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,7 @@ public class ProductService implements IProductService {
         product.setBrand(productDTO.getBrand());
         product.setUnitPrice(productDTO.getUnitPrice());
         product.setStock(productDTO.getStock());
+        product.setStatus(ProductStatus.ACTIVE);
         return Mapper.toProductDTO(productRepo.save(product));
     }
 
@@ -71,6 +73,10 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Product not found"));
+
+        if(product.getStatus()== ProductStatus.DISCONTINUED){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Cannot update a discontinued product");}
 
         if (productDetailsDTO.getName() != null && !productDetailsDTO.getName().trim().isEmpty()) {
             product.setName(productDetailsDTO.getName());
@@ -95,15 +101,29 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
-        if(!productRepo.existsById(id)){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Product not found");
-        }
-        productRepo.deleteById(id);
-
+    public ProductDTO discontinueProduct(Long id) {
+        Product prod = productRepo.findById(id).orElseThrow(()-> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Product not found"));
+        if(prod.getStatus() == ProductStatus.DISCONTINUED){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Product is already discontinued");}
+        prod.setStatus(ProductStatus.DISCONTINUED);
+        return Mapper.toProductDTO(productRepo.save(prod));
     }
+
+    @Override
+    public ProductDTO activateProduct(Long id) {
+        Product prod = productRepo.findById(id).orElseThrow(()-> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Product not found"));
+        if(prod.getStatus() == ProductStatus.ACTIVE){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Product is already active");}
+        prod.setStatus(ProductStatus.ACTIVE);
+        return Mapper.toProductDTO(productRepo.save(prod));
+    }
+
 
     @Override
     public List<ProductDTO> getProductsLowStock() {

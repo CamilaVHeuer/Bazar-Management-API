@@ -19,6 +19,12 @@ public interface ICustomerService {
     //UPDATE
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDetailsDTO);
 
-    //DELETE
-    public void deleteCustomer(Long id);
+    //UPDATE STATUS TO INACTIVE
+    public CustomerDTO inactiveCustomer(Long id);
+
+    //UPDATE STATUS TO SUSPENDED
+    public CustomerDTO suspendCustomer(Long id);
+
+    //UPDATE STATUS TO ACTIVE
+    public CustomerDTO activateCustomer(Long id);
 }

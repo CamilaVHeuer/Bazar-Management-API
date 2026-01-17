@@ -107,9 +107,9 @@
 					"response": []
 				},
 				{
-					"name": "delete product by id",
+					"name": "discontinue product by id",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -121,7 +121,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/1",
+							"raw": "localhost:8080/api/products/discontinue/1",
 							"host": [
 								"localhost"
 							],
@@ -129,6 +129,37 @@
 							"path": [
 								"api",
 								"products",
+								"discontinue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reactivate product by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/activate/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"activate",
 								"1"
 							]
 						}
@@ -269,9 +300,9 @@
 					"response": []
 				},
 				{
-					"name": "delete Customer",
+					"name": "inactivate Customer",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -283,7 +314,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/customers/1",
+							"raw": "localhost:8080/api/customers/inactivate/1",
 							"host": [
 								"localhost"
 							],
@@ -291,6 +322,67 @@
 							"path": [
 								"api",
 								"customers",
+								"inactivate",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspend Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customers/suspend/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"suspend",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reactive Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customers/activate/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"activate",
 								"1"
 							]
 						}

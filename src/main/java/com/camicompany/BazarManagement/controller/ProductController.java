@@ -49,18 +49,29 @@ public class ProductController {
     @ApiResponse(responseCode = "200", description = "Product updated successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Product not found")
+    @ApiResponse(responseCode = "409", description = "Product is discontinued and cannot be updated")
     @Operation(summary = "Update product", description = "Updates product data by ID and returns the updated DTO.")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO prodDetailsDTO) {
         return ResponseEntity.ok(prodServ.updateProduct(id, prodDetailsDTO));
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("discontinue/{id}")
     @ApiResponse(responseCode = "204", description = "Product deleted successfully")
     @ApiResponse(responseCode = "404", description = "Product not found")
-    @Operation(summary = "Delete product", description = "Deletes a product by ID.")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        prodServ.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    @ApiResponse(responseCode = "409", description = "Product is already discontinued")
+    @Operation(summary = "Discontinue product", description = "Discontinues a product by ID.")
+    public ResponseEntity<ProductDTO> discontinueProduct(@PathVariable Long id) {
+       return ResponseEntity.ok().body(prodServ.discontinueProduct(id));
+
+    }
+
+    @PutMapping("activate/{id}")
+    @ApiResponse(responseCode = "200", description = "Product activated successfully")
+    @ApiResponse(responseCode = "404", description = "Product not found")
+    @ApiResponse(responseCode = "409", description = "Product is already active")
+    @Operation(summary = "Activate product", description = "Activates a discontinued product by ID.")
+    public ResponseEntity<ProductDTO> activateProduct(@PathVariable Long id) {
+        return ResponseEntity.ok().body(prodServ.activateProduct(id));
     }
 
     @GetMapping("/low-stock")

@@ -24,4 +24,7 @@ public class Product {
     private Integer stock;
     @OneToMany(mappedBy = "product")
     private List<SalesDetail> items;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProductStatus status = ProductStatus.ACTIVE;
 }

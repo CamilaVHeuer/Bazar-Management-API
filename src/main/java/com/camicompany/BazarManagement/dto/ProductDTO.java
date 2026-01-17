@@ -1,5 +1,6 @@
 package com.camicompany.BazarManagement.dto;
 
+import com.camicompany.BazarManagement.model.ProductStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,6 @@ public class ProductDTO {
     private Double unitPrice;
     @Schema(description = "Available stock of the Product.", example = "100", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer stock;
+    @Schema(description = "Status of the Product.", example = "ACTIVE)", accessMode = Schema.AccessMode.READ_ONLY)
+    private ProductStatus status;
 }

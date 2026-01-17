@@ -28,7 +28,11 @@ This project is part of my **professional portfolio** as a Java backend develope
 
 ### **👥 Customer Management**
 
-- ✅ Complete CRUD operations for customers
+- ✅ Complete CRUD operations for customers (no physical deletion, only status changes)
+- ✅ Customer status management: **ACTIVE**, **INACTIVE**, **SUSPENDED**
+    - Customers can transition from ACTIVE to INACTIVE or SUSPENDED (dedicated endpoints)
+    - Customers can return from INACTIVE to ACTIVE
+    - Customers in SUSPENDED cannot be reactivated
 - ✅ Mandatory field validations
 - ✅ Unique DNI validation (with `existsByDni()` method)
 - ✅ Search by ID with exception handling
@@ -36,7 +40,9 @@ This project is part of my **professional portfolio** as a Java backend develope
 
 ### **📦 Product Management**
 
-- ✅ Complete CRUD operations for products
+- ✅ Complete CRUD operations for products (no physical deletion, only status changes)
+- ✅ Product status management: **ACTIVE**, **DISCONTINUED**
+    - Products can be set to DISCONTINUED or returned to ACTIVE (dedicated endpoints)
 - ✅ Inventory control (stock)
 - ✅ Low stock product queries (with `findByStockLessThanEqual()` method)
 - ✅ Partial updates that preserve existing data
@@ -44,6 +50,7 @@ This project is part of my **professional portfolio** as a Java backend develope
 ### **🛒 Sales Management**
 
 - ✅ Multi-product sales creation
+- ✅ Sale can only be created if all products are **ACTIVE** and customer is **ACTIVE** (otherwise returns 409 Conflict)
 - ✅ Automatic available stock validation
 - ✅ Automatic inventory updates
 - ✅ Automatic calculation of subtotals and total
@@ -169,38 +176,41 @@ Includes:
 ### **👥 Customers**
 
 ```http
-GET    /customers           # List all customers
-POST   /customers           # Create new customer
-GET    /customers/{id}      # Get customer by ID
-PUT    /customers/{id}      # Update customer (partial)
-DELETE /customers/{id}      # Delete customer
+GET    /customers                 # List all customers
+POST   /customers                 # Create new customer
+GET    /customers/{id}            # Get customer by ID
+PUT    /customers/{id}            # Update customer (partial)
+PUT    /customers/inactivate/{id} # Set customer status to INACTIVE
+PUT    /customers/suspend/{id}    # Set customer status to SUSPENDED
+PUT    /customers/activate/{id}   # Set customer status to ACTIVE (only from INACTIVE)
 ```
 
 ### **📦 Products**
 
 ```http
-GET    /products            # List all products
-POST   /products            # Create new product
-GET    /products/{id}       # Get product by ID
-PUT    /products/{id}       # Update product (partial)
-DELETE /products/{id}       # Delete product
-GET    /products/low-stock  # Products with low stock (≤ 5)
+GET    /products                  # List all products
+POST   /products                  # Create new product
+GET    /products/{id}             # Get product by ID
+PUT    /products/{id}             # Update product (partial)
+PUT    /products/discontinue/{id} # Set product status to DISCONTINUED
+PUT    /products/activate/{id}    # Set product status to ACTIVE
+GET    /products/low-stock        # Products with low stock (≤ 5)
 ```
 
 ### **🛒 Sales**
 
 ```http
-GET    /sales               # List all sales
-POST   /sales               # Create new sale
-GET    /sales/{id}          # Get sale by ID
-PUT    /sales/{id}          # Update sale (customer and date only)
-PUT    /sales/cancel/{id}   # Cancel sale (restores stock, sets status to CANCELLED)
-GET    /sales/products/{id} # Products from a specific sale
-GET    /sales/date/{date}   # Sales summary by date
-GET    /sales/greatest-total-amount    # Sale with highest amount
+GET    /sales                     # List all sales
+POST   /sales                     # Create new sale (only if all products and customer are ACTIVE)
+GET    /sales/{id}                # Get sale by ID
+PUT    /sales/{id}                # Update sale (customer and date only)
+PUT    /sales/cancel/{id}         # Cancel sale (restores stock, sets status to CANCELLED)
+GET    /sales/products/{id}       # Products from a specific sale
+GET    /sales/date/{date}         # Sales summary by date
+GET    /sales/greatest-total-amount # Sale with highest amount
 ```
 
-> **Note:** There is **no DELETE endpoint** for sales. Once a sale is cancelled, its stock is restored and it cannot be deleted or cancelled again.
+> **Note:** There is **no DELETE endpoint** for customers, products, or sales. Status changes are used instead of physical deletion.
 
 ---
 

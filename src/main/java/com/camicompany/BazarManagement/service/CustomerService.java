@@ -3,6 +3,7 @@ package com.camicompany.BazarManagement.service;
 import com.camicompany.BazarManagement.dto.CustomerDTO;
 import com.camicompany.BazarManagement.mapper.Mapper;
 import com.camicompany.BazarManagement.model.Customer;
+import com.camicompany.BazarManagement.model.CustomerStatus;
 import com.camicompany.BazarManagement.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,7 @@ public class CustomerService implements ICustomerService {
         cust.setFirstName(customerDTO.getFirstName());
         cust.setLastName(customerDTO.getLastName());
         cust.setDni(customerDTO.getDni());
+        cust.setStatus(CustomerStatus.ACTIVE);
         return Mapper.toCustomerDTO(customerRepo.save(cust));
     }
 
@@ -58,6 +60,9 @@ public class CustomerService implements ICustomerService {
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDetailsDTO) {
         Customer cust = customerRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if(cust.getStatus()!= CustomerStatus.ACTIVE) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Only active customers can be updated");
+        }
         if (customerDetailsDTO == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer data is required");
         }
@@ -81,11 +86,38 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void deleteCustomer(Long id) {
-        if (!customerRepo.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
+    public CustomerDTO inactiveCustomer(Long id) {
+        Customer cust = customerRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if( cust.getStatus() == CustomerStatus.INACTIVE){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer is already inactive");
         }
-        customerRepo.deleteById(id);
+        cust.setStatus(CustomerStatus.INACTIVE);
+        return Mapper.toCustomerDTO(customerRepo.save(cust));
+    }
 
+    @Override
+    public CustomerDTO suspendCustomer(Long id) {
+        Customer cust = customerRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if( cust.getStatus() == CustomerStatus.SUSPENDED){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer is already suspended");
+        }
+        cust.setStatus(CustomerStatus.SUSPENDED);
+        return Mapper.toCustomerDTO(customerRepo.save(cust));
+    }
+
+    @Override
+    public CustomerDTO activateCustomer(Long id) {
+        Customer cust = customerRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        if( cust.getStatus() == CustomerStatus.ACTIVE){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer is already active");
+        }
+        if(cust.getStatus() == CustomerStatus.SUSPENDED){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Suspended customers cannot be activated directly");
+        }
+        cust.setStatus(CustomerStatus.ACTIVE);
+        return Mapper.toCustomerDTO(customerRepo.save(cust));
     }
 }

@@ -19,8 +19,11 @@ public interface IProductService {
     //UPDATE
     public ProductDTO updateProduct(Long id, ProductDTO productDetailsDTO);
 
-    //DELETE
-    public void deleteProduct(Long id);
+    //DISCONTINUE PRODUCT
+    public ProductDTO discontinueProduct(Long id);
+
+    //ACTIVATE PRODUCT
+    public ProductDTO activateProduct(Long id);
 
     //GET Products with low stock
     public List<ProductDTO> getProductsLowStock();

@@ -25,6 +25,7 @@ public class Mapper {
         customerDTO.setFirstName(customer.getFirstName());
         customerDTO.setLastName(customer.getLastName());
         customerDTO.setDni(customer.getDni());
+        customerDTO.setStatus(customer.getStatus());
         return customerDTO;
     }
 
@@ -39,6 +40,7 @@ public class Mapper {
         productDTO.setUnitPrice(product.getUnitPrice());
         productDTO.setBrand(product.getBrand());
         productDTO.setStock(product.getStock());
+        productDTO.setStatus(product.getStatus());
         return productDTO;
     }
 
